@@ -2,8 +2,6 @@ export default function LogoSvg({ className }) {
   return (
     <svg
     className={className}
-      width="346"
-      height="21"
       viewBox="0 0 346 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

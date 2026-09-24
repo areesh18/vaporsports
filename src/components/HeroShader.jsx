@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-
+import { Spinner } from "./Spinner";
 import vertexShader from "@/shaders/vertex.glsl";
 import fragmentShader from "@/shaders/fragment.glsl";
 
@@ -61,9 +61,9 @@ export default function HeroShader() {
     window.addEventListener("resize", resize);
 
     // Compile without blocking the main thread.
-    console.time("shader compile");
+    /* console.time("shader compile"); */
     renderer.compileAsync(scene, camera).then(() => {
-      console.timeEnd("shader compile");
+      /* console.timeEnd("shader compile"); */
       if (disposed) return; // React StrictMode unmounted us mid-compile
 
       const timer = new THREE.Timer();
@@ -95,7 +95,18 @@ export default function HeroShader() {
 
   return (
     <div className="fixed inset-0 p-[10px] bg-white">
-      <div ref={containerRef} className="relative h-full w-full rounded-[16px] overflow-hidden" />
+      <div
+        ref={containerRef}
+        className="relative h-full w-full rounded-[16px] overflow-hidden"
+      />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 inline-flex items-center justify-center bg-white  text-black rounded-[6px] gap-[4px] px-[8px] py-[2px]">
+        <Spinner className="size-3 opacity-36" />
+        <div className=" flex  h-[16px]  items-center justify-center">
+          <p className="font-sf  text-[12px]  leading-[16px] tracking-[-2%] opacity-36">
+            Website Coming Soon
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
