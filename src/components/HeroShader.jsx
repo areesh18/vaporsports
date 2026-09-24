@@ -60,10 +60,7 @@ export default function HeroShader() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Compile without blocking the main thread.
-    /* console.time("shader compile"); */
     renderer.compileAsync(scene, camera).then(() => {
-      /* console.timeEnd("shader compile"); */
       if (disposed) return; // React StrictMode unmounted us mid-compile
 
       const timer = new THREE.Timer();
@@ -71,12 +68,12 @@ export default function HeroShader() {
         timer.update(timestamp);
         uniforms.uTime.value = timer.getElapsed();
 
-        renderer.render(scene, camera); // single pass, straight to screen
+        renderer.render(scene, camera); 
 
         frame = requestAnimationFrame(animate);
       };
       animate(performance.now());
-      canvas.style.opacity = "1"; // fade in after the first real frame
+      canvas.style.opacity = "1"; 
     });
 
     return () => {
@@ -100,9 +97,9 @@ export default function HeroShader() {
         className="relative h-full w-full rounded-[16px] overflow-hidden"
       />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 inline-flex items-center justify-center bg-white  text-black rounded-[6px] gap-[4px] px-[8px] py-[2px]">
-        <Spinner className="size-3 opacity-36" />
+        <Spinner className="size-3  opacity-36" />
         <div className=" flex  h-[16px]  items-center justify-center">
-          <p className="font-sf  text-[12px]  leading-[16px] tracking-[-2%] opacity-36">
+          <p className="font-sf  text-[12px]  leading-[16px]  font-[510]  opacity-36">
             Website Coming Soon
           </p>
         </div>
