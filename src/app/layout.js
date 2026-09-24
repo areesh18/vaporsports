@@ -9,7 +9,7 @@ const sfPro = localFont({
 });
 export const metadata = {
   title: "Vapor Sports® | B2B Custom Merch Tool For Startups",
-  description: "Vapor Sports",
+  description: "Full-scale custom apparel manufacturing for clothing brands and global labels.",
 };
 
 export default function RootLayout({ children }) {
