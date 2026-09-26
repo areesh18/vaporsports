@@ -187,14 +187,6 @@ export default function HeroShader() {
         ref={containerRef}
         className="relative h-full w-full rounded-[16px] overflow-hidden"
       />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 inline-flex items-center justify-center bg-white  text-black rounded-[6px] gap-[4px] px-[8px] py-[2px]">
-        <Spinner className="size-3  opacity-36" />
-        <div className=" flex  h-[16px]  items-center justify-center">
-          <p className="font-sf  text-[12px]  leading-[16px]  font-[510]  opacity-36">
-            Website Coming Soon
-          </p>
-        </div>
-      </div>
     </div>
   );
 }
