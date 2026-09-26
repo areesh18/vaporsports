@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { Spinner } from "./Spinner";
 import passthroughVertex from "@/shaders/vertex.glsl";
 import fieldFragment from "@/shaders/fieldPass.frag.glsl";
 import compositeFragment from "@/shaders/composite.frag.glsl";
@@ -182,10 +181,10 @@ export default function HeroShader() {
   }, []);
 
   return (
-    <div className="fixed inset-0 p-[10px] bg-white">
+    <div className="absolute inset-0">
       <div
         ref={containerRef}
-        className="relative h-full w-full rounded-[16px] overflow-hidden"
+        className=" h-full w-full"
       />
     </div>
   );
