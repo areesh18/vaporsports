@@ -3,7 +3,7 @@ import "./globals.css";
 
 
 const sfPro = localFont({
-  src: "./fonts/SFPRODISPLAYREGULAR.woff2", 
+  src: "./fonts/SFPRODISPLAYBOLD.woff2", 
   variable: "--font-sf",
   display: "swap",
 });
