@@ -32,14 +32,28 @@ export default function Window({ title, children, className = "" }) {
                 />
               </button>
               {/* Chevrons add later */}
-              <Image
-                src="/icons/chevron.svg"
-                alt=""
-                width={53}
-                height={38}
-                draggable={false}
-                className=" select-none"
-              />
+              <div className="flex items-center ">
+                <button className="cursor-pointer">
+                  <Image
+                    src="/icons/chevron_left.svg"
+                    alt=""
+                    width={32}
+                    height={38}
+                    draggable={false}
+                    className=" select-none"
+                  />
+                </button>
+                <button className="-ml-[11px] cursor-pointer">
+                  <Image
+                    src="/icons/chevron_right.svg"
+                    alt=""
+                    width={32}
+                    height={38}
+                    draggable={false}
+                    className=" select-none "
+                  />
+                </button>
+              </div>
               <p className="font-sf text-muted text-[13px] font-bold tracking-[0px] leading-[16px]">
                 {title}
               </p>
