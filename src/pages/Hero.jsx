@@ -20,7 +20,7 @@ export default function Hero() {
         >
           <LogoSvg className="w-[490px] h-[29px] -rotate-90 md:rotate-0" />
         </div>
-        <Window title="Information" className="left-[10px] top-[10px] w-[418px] h-[309px]">
+        <Window title="Information" className="left-[10px] top-[10px] w-[418px] h-[325px]">
           <Information />
         </Window>
         <Window title="Catalogue" className="left-[10px] bottom-[10px] w-[310px] h-[343px]">
