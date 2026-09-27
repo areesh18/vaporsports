@@ -4,4 +4,16 @@
   --font-sfmed: var(--font-sf-pro-med), system-ui, sans-serif;
   --color-surface: #ebebeb;
   --color-muted: #4d4d4d;
+  --color-muted2: #737373;
+}
+/* Hide number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
 }

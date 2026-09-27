@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 import { useState } from "react";
+
 export default function InquiryForm() {
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -14,7 +15,67 @@ export default function InquiryForm() {
   const nextStep = () => {
     setStep((prev) => Math.min(prev + 1, 9));
   };
-  const [activeType, setActiveType] = useState("Sample");
+
+  const [formData, setFormData] = useState({
+    type: "Sample",
+    category: "Leather Wear",
+    productType: null,
+    printMethod: null,
+
+    productDetails: {
+      quantity: "",
+      sizes: [],
+      color: null,
+      notes: "",
+    },
+
+    design: null,
+
+    branding: null,
+    packaging: null,
+
+    contact: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+    },
+  });
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return <StepOne formData={formData} setFormData={setFormData} />;
+
+      case 2:
+        return <StepTwo formData={formData} setFormData={setFormData} />;
+
+      case 3:
+        return <StepThree formData={formData} setFormData={setFormData} />;
+
+      case 4:
+        return <StepFour formData={formData} setFormData={setFormData} />;
+
+      case 5:
+        return <StepFive formData={formData} setFormData={setFormData} />;
+
+      case 6:
+        return <h1>Hello</h1>;
+
+      case 7:
+        return <h1>Hello</h1>;
+
+      case 8:
+        return <h1>Hello</h1>;
+
+      case 9:
+        return <h1>Hello</h1>;
+
+      default:
+        return null;
+    }
+  };
+  /* const [activeType, setActiveType] = useState("Sample"); */
+
   return (
     <Draggable handle=".window-header" nodeRef={nodeRef}>
       <div
@@ -87,44 +148,299 @@ export default function InquiryForm() {
                 {Array.from({ length: 9 }, (_, index) => {
                   const item = index + 1;
                   return (
-                    <div
+                    <button
+                      type="button"
+                      onClick={() => setStep(item)}
                       key={item}
-                      className={`w-[27px] h-[24px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
+                      className={`cursor-pointer w-[27px] h-[24px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
                     >
-                      <p className="font-sfmed text-[8px] leading-[16px]">
+                      <span className="font-sfmed text-[8px] leading-[16px]">
                         {String(item).padStart(2, "0")}
-                      </p>
-                    </div>
+                      </span>
+                    </button>
                   );
                 })}
               </div>
             </div>
             <div className="relative w-full flex-1 flex items-center justify-center min-h-0 ">
-              <p className="font-sfmed text-[8px] leading-[16px]">
-                What are you looking for?
-              </p>
-              <div className="absolute bottom-0 w-fit h-[30px] rounded-[50px] bg-surface p-[4px]">
-                <div className="w-full h-full flex items-center justify-center gap-[4px]">
-                  {["Sample", "Bulk"].map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => setActiveType(item)}
-                      className={`h-full px-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
-                        activeType === item ? "bg-white" : ""
-                      }`}
-                    >
-                      <span className="font-sfmed text-[8px] leading-[16px] tracking-[0%]" >
-                        {item}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {renderStep()}
             </div>
           </div>
         </div>
       </div>
     </Draggable>
+  );
+}
+function StepOne({ formData, setFormData }) {
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        What are you looking for?
+      </p>
+      <div className="absolute bottom-0 w-fit h-[30px] rounded-[50px] bg-surface p-[4px]">
+        <div className="w-full h-full flex items-center justify-center gap-[4px]">
+          {["Sample", "Bulk"].map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  type: item,
+                }))
+              }
+              className={`p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+                formData.type === item ? "bg-white" : ""
+              }`}
+            >
+              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+function StepTwo({ formData, setFormData }) {
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Select product category.
+      </p>
+      <div className="absolute bottom-0 w-fit h-[30px] rounded-[50px] bg-surface p-[4px]">
+        <div className="w-full h-full flex items-center justify-center gap-[4px]">
+          {["Leather Wear", "Street Wear", "Sports Wear"].map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  category: item,
+                }))
+              }
+              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+                formData.category === item ? "bg-white" : ""
+              }`}
+            >
+              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+function StepThree({ formData, setFormData }) {
+  const productOptions = {
+    "Leather Wear": [
+      "Leather Jacket",
+      "Biker Jacket",
+      "Bomber Jacket",
+      "Leather Vest",
+      "Leather Pants",
+      "Leather Accessories",
+      "Custom Leather Product",
+    ],
+
+    "Street Wear": [
+      "Tshirts",
+      "Hoodies",
+      "Bomber Jacket",
+      "Leather Vest",
+      "Leather Pants",
+      "Shorts",
+      "Copo",
+    ],
+
+    "Sports Wear": [
+      "Team Uniform",
+      "Training Wear",
+      "Shorts",
+      "Sports Tshirts",
+      "Leather Accessories",
+      "Custom Leather Product",
+    ],
+  };
+  const options = productOptions[formData.category] || [];
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Select product category.
+      </p>
+      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+        <div className="w-full flex flex-wrap justify-center gap-[4px]">
+          {options.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  productType: item,
+                }))
+              }
+              className={`p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+                formData.productType === item ? "bg-white" : ""
+              }`}
+            >
+              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+function StepFour({ formData, setFormData }) {
+  const printOptions = [
+    "DTF Printing",
+    "Screen Printing",
+    "Embroidery",
+    "DTG Printing",
+    "Silicon Logo",
+    "Woven Label",
+    "Heat Transfer",
+    "Others",
+  ];
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Select product category.
+      </p>
+      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+        <div className="w-full flex flex-wrap justify-center gap-[4px]">
+          {printOptions.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  printMethod: item,
+                }))
+              }
+              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+                formData.printMethod === item ? "bg-white" : ""
+              }`}
+            >
+              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+function StepFive({ formData, setFormData }) {
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Enter product details.
+      </p>
+      <div className="absolute bottom-0 w-full  flex flex-col gap-[5px]">
+        <div className="w-full h-[30px] flex items-center gap-[8px]">
+          <div className=" w-[100px]  h-full bg-surface rounded-[50px] flex items-center justify-start">
+            <span className="px-[12px] text-[8px] font-sfmed leading-[6px] text-muted2">
+              Qty.
+            </span>
+            <input
+              type="number"
+              min="1"
+              value={formData.productDetails.quantity}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  productDetails: {
+                    ...prev.productDetails,
+                    quantity: e.target.value,
+                  },
+                }))
+              }
+              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[8px] font-sfmed leading-[6px]"
+            />
+          </div>
+          <div className="flex-1 h-full bg-surface rounded-[50px] p-[4px]">
+            <div className="w-full h-full flex items-center gap-[4px]">
+              <button className="p-[8px] text-[8px] font-sfmed leading-[6px] text-muted2">
+                Color
+              </button>
+              <div className=" h-full flex items-center">
+                {["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"].map(
+                  (color, index) => {
+                    return (
+                      <button
+                        key={index}
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            productDetails: {
+                              ...prev.productDetails,
+                              color,
+                            },
+                          }))
+                        }
+                        className={`cursor-pointer w-[22px] h-[22px] rounded-[50px] ${index !== 0 ? "-ml-[11px]" : ""} ${formData.productDetails.color === color ? "border" : ""} `}
+                        style={{ backgroundColor: color }}
+                      />
+                    );
+                  },
+                )}
+              </div>
+              <button className="p-[8px] text-[8px] font-sfmed leading-[6px] cursor-pointer">
+                Custom
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="w-full h-[30px] bg-surface rounded-[50px] p-[4px]">
+          <div className="w-full h-full flex items-center gap-[4px] justify-center">
+            <button className="p-[8px] text-[8px] font-sfmed  font-medium leading-[6px]">
+              Size
+            </button>
+            {["XS", "S", "M", "L", "2XL", "3XL"].map((size, index) => {
+              return (
+                <button
+                  key={index}
+                  onClick={() =>
+                    setFormData((prev) => {
+                      const sizes = prev.productDetails.sizes;
+
+                      return {
+                        ...prev,
+                        productDetails: {
+                          ...prev.productDetails,
+                          sizes: sizes.includes(size)
+                            ? sizes.filter((item) => item !== size)
+                            : [...sizes, size],
+                        },
+                      };
+                    })
+                  }
+                  className={` rounded-[50px] p-[8px] text-[8px] font-sfmed  font-medium leading-[6px] cursor-pointer ${
+                    formData.productDetails.sizes.includes(size)
+                      ? "bg-white"
+                      : ""
+                  }`}
+                >
+                  {size}
+                </button>
+              );
+            })}
+            <button className="p-[8px] text-[8px] font-sfmed  font-medium leading-[6px]  cursor-pointer">
+              Custom
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
