@@ -69,7 +69,7 @@ export default function InquiryForm() {
         return <StepEight formData={formData} setFormData={setFormData} />;
 
       case 9:
-        return <h1>Hello</h1>;
+        return <StepNine/>;
 
       default:
         return null;
@@ -704,7 +704,7 @@ function StepEight({ formData, setFormData }) {
     </>
   );
 }
-function StyledInput({ value, onChange, label,required = false }) {
+function StyledInput({ value, onChange, label, required = false }) {
   return (
     <div className="relative inline-flex">
       {/* Ghost element - invisible, but takes up real space, defines the box size */}
@@ -729,5 +729,14 @@ function StyledInput({ value, onChange, label,required = false }) {
         </span>
       )}
     </div>
+  );
+}
+function StepNine() {
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[6px] text-center">
+        Form is submitted. Thanks.
+      </p>
+    </>
   );
 }
