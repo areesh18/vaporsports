@@ -6,13 +6,14 @@ import Window from "@/components/Window";
 import Catalogue from "@/components/window_content/Catalogue";
 import Video from "@/components/window_content/Video";
 import Credits from "@/components/window_content/Credits";
+import InquiryForm from "@/components/window_content/InquiryForm/InquiryForm";
 export default function Hero() {
   return (
     <div className="relative h-screen w-full bg-white">
       <div className="absolute inset-[10px] rounded-2xl overflow-hidden z-0 bg-black ">
         {/* <HeroShader /> */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-2 will-change-transform "
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-0 will-change-transform "
           style={{
             transformStyle: "preserve-3d",
             perspective: "1000px",
@@ -32,6 +33,7 @@ export default function Hero() {
         <Window title="Credits" className="right-[15px] top-[10px] w-[210px] h-[243px]">
           <Credits/>
         </Window>
+        <InquiryForm/>
       </div>
     </div>
   );

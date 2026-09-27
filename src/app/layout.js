@@ -2,9 +2,24 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 
-const sfPro = localFont({
+/* const sfProBold = localFont({
   src: "./fonts/SFPRODISPLAYBOLD.woff2", 
-  variable: "--font-sf",
+  variable: "--font-sf-pro",
+  display: "swap",
+}); */
+const sfProBold = localFont({
+  src: "./fonts/SF-Pro-Text-Bold.woff2", 
+  variable: "--font-sf-pro",
+  display: "swap",
+});
+/* const sfProMedium = localFont({
+  src: "./fonts/SFPRODISPLAYMEDIUM.woff2", 
+  variable: "--font-sf-pro-med",
+  display: "swap",
+}); */
+const sfProMedium = localFont({
+  src: "./fonts/SF-Pro-Text-Medium.woff2", 
+  variable: "--font-sf-pro-med",
   display: "swap",
 });
 export const metadata = {
@@ -14,7 +29,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${sfPro.variable}`} >
+    <html lang="en" className={`${sfProBold.variable} ${sfProMedium.variable}`} >
       <body className="antialiased">{children}</body>
     </html>
   );

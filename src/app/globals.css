@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @theme inline {
-  --font-sf: var(--font-sf), system-ui, sans-serif;
+  --font-sf: var(--font-sf-pro), system-ui, sans-serif;
+  --font-sfmed: var(--font-sf-pro-med), system-ui, sans-serif;
   --color-surface: #ebebeb;
   --color-muted: #4d4d4d;
 }
