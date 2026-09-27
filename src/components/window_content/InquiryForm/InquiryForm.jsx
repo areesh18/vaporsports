@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 import { useState } from "react";
-import { useEffect, useMemo } from "react";
 export default function InquiryForm() {
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -31,14 +30,16 @@ export default function InquiryForm() {
 
     design: [],
 
-    branding: null,
+    branding: [],
     packaging: null,
 
     contact: {
       name: "",
-      email: "",
-      phone: "",
       company: "",
+      phone: "",
+      email: "",
+      address: "",
+      additional: "",
     },
   });
   const renderStep = () => {
@@ -62,10 +63,10 @@ export default function InquiryForm() {
         return <StepSix formData={formData} setFormData={setFormData} />;
 
       case 7:
-        return <h1>Hello</h1>;
+        return <StepSeven formData={formData} setFormData={setFormData} />;
 
       case 8:
-        return <h1>Hello</h1>;
+        return <StepEight formData={formData} setFormData={setFormData} />;
 
       case 9:
         return <h1>Hello</h1>;
@@ -269,7 +270,7 @@ function StepThree({ formData, setFormData }) {
   return (
     <>
       <p className="font-sfmed text-[8px] leading-[16px]">
-        Select product category.
+        Select product type.
       </p>
       <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
         <div className="w-full flex flex-wrap justify-center gap-[4px]">
@@ -311,7 +312,7 @@ function StepFour({ formData, setFormData }) {
   return (
     <>
       <p className="font-sfmed text-[8px] leading-[16px]">
-        Select product category.
+        Select print method.
       </p>
       <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
         <div className="w-full flex flex-wrap justify-center gap-[4px]">
@@ -540,5 +541,193 @@ function StepSix({ formData, setFormData }) {
         </div>
       </div>
     </>
+  );
+}
+function StepSeven({ formData, setFormData }) {
+  const brandingOptions = [
+    "Custom Neck Labels",
+    "Woven Labels",
+    "Packaging Bags",
+    "Custom Boxes",
+    "Thank You Card",
+    "Brand Cards",
+  ];
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Select branding/packaging.
+      </p>
+      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+        <div className="w-full flex flex-wrap justify-center gap-[4px]">
+          {brandingOptions.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  branding: prev.branding.includes(item)
+                    ? prev.branding.filter((option) => option !== item)
+                    : [...prev.branding, item],
+                }))
+              }
+              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+                formData.branding.includes(item) ? "bg-white" : ""
+              }`}
+            >
+              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+                {item}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+function StepEight({ formData, setFormData }) {
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[8px] text-center">
+        Last one. Enter your information so,
+        <br /> we can get back to you.
+      </p>
+      <div className="absolute bg-surface w-full bottom-0 p-[4px] rounded-[14.5px]">
+        <div className=" flex flex-wrap justify-center gap-[4px]">
+          {/* <div className="relative">
+            <input
+              type="text"
+              placeholder=""
+              value={formData.contact.name}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  contact: {
+                    ...prev.contact,
+                    name: e.target.value,
+                  },
+                }))
+              }
+              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sfmed text-[8px] leading-[6px]"
+            />
+            {!formData.contact.name && (
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sfmed text-[8px] leading-[6px] whitespace-nowrap text-[#00000040]">
+                Full Name<span className="text-[#C70000]">*</span>
+              </span>
+            )}
+          </div> */}
+          <StyledInput
+            label="Full Name"
+            required={true}
+            value={formData.contact.name}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: { ...prev.contact, name: e.target.value },
+              }))
+            }
+          />
+          <StyledInput
+            label="Company Name (Optional)"
+            value={formData.contact.company}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: {
+                  ...prev.contact,
+                  company: e.target.value,
+                },
+              }))
+            }
+          />
+
+          <StyledInput
+            label="Phone Number"
+            required={true}
+            value={formData.contact.phone}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: {
+                  ...prev.contact,
+                  phone: e.target.value,
+                },
+              }))
+            }
+          />
+
+          <StyledInput
+            label="Email Address"
+            required={true}
+            value={formData.contact.email}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: {
+                  ...prev.contact,
+                  email: e.target.value,
+                },
+              }))
+            }
+          />
+
+          <StyledInput
+            label="Shipping Address"
+            required={true}
+            value={formData.contact.address}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: {
+                  ...prev.contact,
+                  address: e.target.value,
+                },
+              }))
+            }
+          />
+
+          <StyledInput
+            label="Additional Information (Optional)"
+            value={formData.contact.additional}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                contact: {
+                  ...prev.contact,
+                  additional: e.target.value,
+                },
+              }))
+            }
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+function StyledInput({ value, onChange, label,required = false }) {
+  return (
+    <div className="relative inline-flex">
+      {/* Ghost element - invisible, but takes up real space, defines the box size */}
+      <span className="invisible p-[8px] font-sfmed text-[8px] leading-[6px] whitespace-nowrap">
+        {label}
+        {required && <span>*</span>}
+      </span>
+
+      {/* Real input - absolutely positioned to fill the ghost's box exactly */}
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        className="absolute inset-0 w-full h-full p-[8px] rounded-[14.5px] bg-white outline-none border-none font-sfmed text-[8px] leading-[6px]"
+      />
+
+      {/* Placeholder overlay - only shown when empty */}
+      {!value && (
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sfmed text-[8px] leading-[6px] whitespace-nowrap text-[#00000040] pointer-events-none">
+          {label}
+          {required && <span className="text-[#C70000]">*</span>}
+        </span>
+      )}
+    </div>
   );
 }
