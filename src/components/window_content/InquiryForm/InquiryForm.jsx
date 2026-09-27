@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 import { useState } from "react";
-
+import { useEffect, useMemo } from "react";
 export default function InquiryForm() {
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -29,7 +29,7 @@ export default function InquiryForm() {
       notes: "",
     },
 
-    design: null,
+    design: [],
 
     branding: null,
     packaging: null,
@@ -59,7 +59,7 @@ export default function InquiryForm() {
         return <StepFive formData={formData} setFormData={setFormData} />;
 
       case 6:
-        return <h1>Hello</h1>;
+        return <StepSix formData={formData} setFormData={setFormData} />;
 
       case 7:
         return <h1>Hello</h1>;
@@ -74,7 +74,6 @@ export default function InquiryForm() {
         return null;
     }
   };
-  /* const [activeType, setActiveType] = useState("Sample"); */
 
   return (
     <Draggable handle=".window-header" nodeRef={nodeRef}>
@@ -437,6 +436,105 @@ function StepFive({ formData, setFormData }) {
             })}
             <button className="p-[8px] text-[8px] font-sfmed  font-medium leading-[6px]  cursor-pointer">
               Custom
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+function StepSix({ formData, setFormData }) {
+  const handleUpload = (e) => {
+    const files = Array.from(e.target.files || []);
+
+    if (!files.length) return;
+
+    const newDesigns = files.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
+
+    setFormData((prev) => ({
+      ...prev,
+      design: [...prev.design, ...newDesigns],
+    }));
+
+    e.target.value = "";
+  };
+
+  const circleCount = Math.max(4, formData.design.length);
+  const placeholderCount = circleCount - formData.design.length;
+  return (
+    <>
+      <p className="font-sfmed text-[8px] leading-[16px]">
+        Upload your design.
+      </p>
+      <div className="absolute bottom-0 bg-surface w-full h-[30px] p-[4px] rounded-[14.5px]">
+        <div className="w-full h-full flex items-center justify-between">
+          <label className="cursor-pointer">
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleUpload}
+              className="hidden"
+            />
+
+            <Image
+              src="/icons/upload.svg"
+              width={22}
+              height={22}
+              alt="Upload Files"
+            />
+          </label>
+          <div className="flex items-center ">
+            {Array.from({ length: placeholderCount }).map((_, index) => {
+              return (
+                <div
+                  key={`placeholder-${index}`}
+                  className={`
+                    relative
+                    shrink-0
+                    w-[22px]
+                    h-[22px]
+                    rounded-full
+                    overflow-hidden
+                    ${!(index === 0) ? "-ml-[11px]" : ""}
+                  `}
+                >
+                  <Image
+                    src="/icons/dotted-circle.svg"
+                    width={22}
+                    height={22}
+                    alt="Upload Files"
+                  />
+                </div>
+              );
+            })}
+            {[...formData.design].reverse().map((item, index) => {
+              const isFirst = placeholderCount === 0 && index === 0;
+              return (
+                <div
+                  key={`${item.file.name}-${item.file.lastModified}-${index}`}
+                  className={`relative shrink-0 w-[22px] h-[22px] rounded-full overflow-hidden ${
+                    !isFirst ? "-ml-[11px]" : ""
+                  }`}
+                >
+                  <img
+                    src={item.url}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              );
+            })}
+            <button type="button" className="relative -ml-[11px] z-10">
+              <Image
+                src="/icons/view-upload.svg"
+                width={22}
+                height={22}
+                alt="Upload Files"
+              />
             </button>
           </div>
         </div>
