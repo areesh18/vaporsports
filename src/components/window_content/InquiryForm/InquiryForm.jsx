@@ -80,7 +80,7 @@ export default function InquiryForm() {
     <Draggable handle=".window-header" nodeRef={nodeRef}>
       <div
         ref={nodeRef}
-        className="absolute right-[10px] bottom-[10px] w-[300px] h-[433px] bg-surface rounded-[10px] px-[5px] pb-[5px]"
+        className="absolute right-[10px] bottom-[10px] w-[428px] h-[628px] bg-surface rounded-[10px] px-[5px] pb-[5px]"
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
@@ -143,7 +143,7 @@ export default function InquiryForm() {
           </div>
           <div className="h-full w-full flex flex-col rounded-[6px] bg-white p-[5px]">
             {/* Inquiry 1-9 nav */}
-            <div className="w-full h-[32px] bg-surface rounded-[50px] p-[4px]">
+            <div className="w-full h-fit bg-surface rounded-[50px] p-[4px]">
               <div className="w-full h-full flex items-center gap-[4px]">
                 {Array.from({ length: 9 }, (_, index) => {
                   const item = index + 1;
@@ -152,9 +152,9 @@ export default function InquiryForm() {
                       type="button"
                       onClick={() => setStep(item)}
                       key={item}
-                      className={`cursor-pointer w-[27px] h-[24px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
+                      className={`cursor-pointer w-[40px] h-[32px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
                     >
-                      <span className="font-sfmed text-[8px] leading-[16px]">
+                      <span className="font-sf text-[11px] font-bold leading-[16px]">
                         {String(item).padStart(2, "0")}
                       </span>
                     </button>
@@ -174,10 +174,10 @@ export default function InquiryForm() {
 function StepOne({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         What are you looking for?
       </p>
-      <div className="absolute bottom-0 w-fit h-[30px] rounded-[50px] bg-surface p-[4px]">
+      <div className="absolute bottom-0 w-fit h-[40px] rounded-[50px] bg-surface p-[4px]">
         <div className="w-full h-full flex items-center justify-center gap-[4px]">
           {["Sample", "Bulk"].map((item) => (
             <button
@@ -189,11 +189,11 @@ function StepOne({ formData, setFormData }) {
                   type: item,
                 }))
               }
-              className={`p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+              className={`p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
                 formData.type === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[6px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -206,10 +206,10 @@ function StepOne({ formData, setFormData }) {
 function StepTwo({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select product category.
       </p>
-      <div className="absolute bottom-0 w-fit h-[30px] rounded-[50px] bg-surface p-[4px]">
+      <div className="absolute bottom-0 w-fit h-[40px] rounded-[50px] bg-surface p-[4px]">
         <div className="w-full h-full flex items-center justify-center gap-[4px]">
           {["Leather Wear", "Street Wear", "Sports Wear"].map((item) => (
             <button
@@ -221,11 +221,11 @@ function StepTwo({ formData, setFormData }) {
                   category: item,
                 }))
               }
-              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+              className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
                 formData.category === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[7px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -269,7 +269,7 @@ function StepThree({ formData, setFormData }) {
   const options = productOptions[formData.category] || [];
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select product type.
       </p>
       <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
@@ -284,11 +284,11 @@ function StepThree({ formData, setFormData }) {
                   productType: item,
                 }))
               }
-              className={`p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+              className={`p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
                 formData.productType === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[7px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -311,7 +311,7 @@ function StepFour({ formData, setFormData }) {
   ];
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select print method.
       </p>
       <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
@@ -326,11 +326,11 @@ function StepFour({ formData, setFormData }) {
                   printMethod: item,
                 }))
               }
-              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+              className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
                 formData.printMethod === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[6px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -343,13 +343,13 @@ function StepFour({ formData, setFormData }) {
 function StepFive({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Enter product details.
       </p>
       <div className="absolute bottom-0 w-full  flex flex-col gap-[5px]">
-        <div className="w-full h-[30px] flex items-center gap-[8px]">
-          <div className=" w-[100px]  h-full bg-surface rounded-[50px] flex items-center justify-start">
-            <span className="px-[12px] text-[8px] font-sfmed leading-[6px] text-muted2">
+        <div className="w-full h-[40px] flex items-center gap-[8px]">
+          <div className=" w-[140px]  h-full bg-surface rounded-[50px] flex items-center justify-start">
+            <span className="px-[16px] text-[11px] font-sf font-bold leading-[6px] text-muted2">
               Qty.
             </span>
             <input
@@ -365,13 +365,13 @@ function StepFive({ formData, setFormData }) {
                   },
                 }))
               }
-              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[8px] font-sfmed leading-[6px]"
+              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[6px]"
             />
           </div>
           <div className="flex-1 h-full bg-surface rounded-[50px] p-[4px]">
             <div className="w-full h-full flex items-center gap-[4px]">
-              <button className="p-[8px] text-[8px] font-sfmed leading-[6px] text-muted2">
-                Color
+              <button className="p-[16px] text-[11px] font-sf font-bold leading-[6px] text-muted2">
+                Colors
               </button>
               <div className=" h-full flex items-center">
                 {["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"].map(
@@ -388,22 +388,22 @@ function StepFive({ formData, setFormData }) {
                             },
                           }))
                         }
-                        className={`cursor-pointer w-[22px] h-[22px] rounded-[50px] ${index !== 0 ? "-ml-[11px]" : ""} ${formData.productDetails.color === color ? "border" : ""} `}
+                        className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] ${index !== 0 ? "-ml-[11px]" : ""} ${formData.productDetails.color === color ? "border" : ""} `}
                         style={{ backgroundColor: color }}
                       />
                     );
                   },
                 )}
               </div>
-              <button className="p-[8px] text-[8px] font-sfmed leading-[6px] cursor-pointer">
+              <button className="p-[12px] text-[11px] font-sf font-bold leading-[6px] cursor-pointer">
                 Custom
               </button>
             </div>
           </div>
         </div>
-        <div className="w-full h-[30px] bg-surface rounded-[50px] p-[4px]">
-          <div className="w-full h-full flex items-center gap-[4px] justify-center">
-            <button className="p-[8px] text-[8px] font-sfmed  font-medium leading-[6px]">
+        <div className="w-full h-[40px] bg-surface rounded-[50px] p-[4px]">
+          <div className="w-full h-full flex items-center justify-between">
+            <button className="p-[12px] text-[11px] font-sf font-bold leading-[6px]">
               Size
             </button>
             {["XS", "S", "M", "L", "2XL", "3XL"].map((size, index) => {
@@ -425,7 +425,7 @@ function StepFive({ formData, setFormData }) {
                       };
                     })
                   }
-                  className={` rounded-[50px] p-[8px] text-[8px] font-sfmed  font-medium leading-[6px] cursor-pointer ${
+                  className={` rounded-[50px] p-[12px] text-[11px] font-sf  font-bold leading-[6px] cursor-pointer ${
                     formData.productDetails.sizes.includes(size)
                       ? "bg-white"
                       : ""
@@ -435,7 +435,7 @@ function StepFive({ formData, setFormData }) {
                 </button>
               );
             })}
-            <button className="p-[8px] text-[8px] font-sfmed  font-medium leading-[6px]  cursor-pointer">
+            <button className="p-[12px] rounded-[50px] text-[11px] font-sf  font-bold leading-[6px]  cursor-pointer">
               Custom
             </button>
           </div>
@@ -467,10 +467,10 @@ function StepSix({ formData, setFormData }) {
   const placeholderCount = circleCount - formData.design.length;
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Upload your design.
       </p>
-      <div className="absolute bottom-0 bg-surface w-full h-[30px] p-[4px] rounded-[14.5px]">
+      <div className="absolute bottom-0 bg-surface w-full h-[40px] p-[4px] rounded-[50px]">
         <div className="w-full h-full flex items-center justify-between">
           <label className="cursor-pointer">
             <input
@@ -483,8 +483,8 @@ function StepSix({ formData, setFormData }) {
 
             <Image
               src="/icons/upload.svg"
-              width={22}
-              height={22}
+              width={32}
+              height={32}
               alt="Upload Files"
             />
           </label>
@@ -496,8 +496,8 @@ function StepSix({ formData, setFormData }) {
                   className={`
                     relative
                     shrink-0
-                    w-[22px]
-                    h-[22px]
+                    w-[32px]
+                    h-[32px]
                     rounded-full
                     overflow-hidden
                     ${!(index === 0) ? "-ml-[11px]" : ""}
@@ -505,8 +505,8 @@ function StepSix({ formData, setFormData }) {
                 >
                   <Image
                     src="/icons/dotted-circle.svg"
-                    width={22}
-                    height={22}
+                    width={32}
+                    height={32}
                     alt="Upload Files"
                   />
                 </div>
@@ -517,7 +517,7 @@ function StepSix({ formData, setFormData }) {
               return (
                 <div
                   key={`${item.file.name}-${item.file.lastModified}-${index}`}
-                  className={`relative shrink-0 w-[22px] h-[22px] rounded-full overflow-hidden ${
+                  className={`relative shrink-0 w-[32px] h-[32px] rounded-full overflow-hidden ${
                     !isFirst ? "-ml-[11px]" : ""
                   }`}
                 >
@@ -532,8 +532,8 @@ function StepSix({ formData, setFormData }) {
             <button type="button" className="relative -ml-[11px] z-10">
               <Image
                 src="/icons/view-upload.svg"
-                width={22}
-                height={22}
+                width={32}
+                height={32}
                 alt="Upload Files"
               />
             </button>
@@ -554,10 +554,10 @@ function StepSeven({ formData, setFormData }) {
   ];
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[16px]">
+      <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select branding/packaging.
       </p>
-      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+      <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
         <div className="w-full flex flex-wrap justify-center gap-[4px]">
           {brandingOptions.map((item) => (
             <button
@@ -571,11 +571,11 @@ function StepSeven({ formData, setFormData }) {
                     : [...prev.branding, item],
                 }))
               }
-              className={` p-[8px] rounded-[50px] flex items-center justify-center cursor-pointer ${
+              className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
                 formData.branding.includes(item) ? "bg-white" : ""
               }`}
             >
-              <span className="font-sfmed text-[8px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] leading-[6px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -588,11 +588,11 @@ function StepSeven({ formData, setFormData }) {
 function StepEight({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[8px] text-center">
+      <p className="font-sf text-[11px] font-bold leading-[11px] text-center">
         Last one. Enter your information so,
         <br /> we can get back to you.
       </p>
-      <div className="absolute bg-surface w-full bottom-0 p-[4px] rounded-[14.5px]">
+      <div className="absolute bg-surface w-full bottom-0 p-[4px] rounded-[18px]">
         <div className=" flex flex-wrap justify-center gap-[4px]">
           {/* <div className="relative">
             <input
@@ -608,10 +608,10 @@ function StepEight({ formData, setFormData }) {
                   },
                 }))
               }
-              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sfmed text-[8px] leading-[6px]"
+              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sf text-[11px] leading-[6px]"
             />
             {!formData.contact.name && (
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sfmed text-[8px] leading-[6px] whitespace-nowrap text-[#00000040]">
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[6px] whitespace-nowrap text-[#00000040]">
                 Full Name<span className="text-[#C70000]">*</span>
               </span>
             )}
@@ -708,7 +708,7 @@ function StyledInput({ value, onChange, label, required = false }) {
   return (
     <div className="relative inline-flex">
       {/* Ghost element - invisible, but takes up real space, defines the box size */}
-      <span className="invisible p-[8px] font-sfmed text-[8px] leading-[6px] whitespace-nowrap">
+      <span className="invisible p-[12px] font-sf text-[11px] leading-[6px] whitespace-nowrap">
         {label}
         {required && <span>*</span>}
       </span>
@@ -718,12 +718,12 @@ function StyledInput({ value, onChange, label, required = false }) {
         type="text"
         value={value}
         onChange={onChange}
-        className="absolute inset-0 w-full h-full p-[8px] rounded-[14.5px] bg-white outline-none border-none font-sfmed text-[8px] leading-[6px]"
+        className="absolute inset-0 w-full h-full p-[12px] rounded-[50px] bg-white outline-none border-none font-sf text-[11px] leading-[6px]"
       />
 
       {/* Placeholder overlay - only shown when empty */}
       {!value && (
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sfmed text-[8px] leading-[6px] whitespace-nowrap text-[#00000040] pointer-events-none">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[6px] whitespace-nowrap text-[#00000040] pointer-events-none">
           {label}
           {required && <span className="text-[#C70000]">*</span>}
         </span>
@@ -734,7 +734,7 @@ function StyledInput({ value, onChange, label, required = false }) {
 function StepNine() {
   return (
     <>
-      <p className="font-sfmed text-[8px] leading-[6px] text-center">
+      <p className="font-sf text-[11px] font-bold leading-[6px] text-center">
         Form is submitted. Thanks.
       </p>
     </>
