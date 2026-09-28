@@ -112,7 +112,7 @@ export default function InquiryForm() {
   return (
     <Draggable
       handle=".drag"
-      cancel="button"
+      cancel="button,input,textarea,select,label"
       nodeRef={nodeRef}
       onStart={() => {
         didDrag.current = false;
@@ -148,7 +148,7 @@ export default function InquiryForm() {
               <button
                 onPointerDown={(e) => {
                   e.stopPropagation();
-                  setExpanded(false);
+                  setExpanded((prev)=>!prev);
                 }}
                 type="button"
                 className="cursor-pointer"
