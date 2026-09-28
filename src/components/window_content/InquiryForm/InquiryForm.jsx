@@ -3,6 +3,28 @@ import Image from "next/image";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 import { useState } from "react";
+
+// ADDED: which fields must be filled for each step to count as complete
+const validators = {
+  1: (d) => !!d.type,
+  2: (d) => !!d.category,
+  3: (d) => !!d.productType,
+  4: (d) => !!d.printMethod,
+  5: (d) =>
+    Number(d.productDetails.quantity) > 0 &&
+    d.productDetails.sizes.length > 0 &&
+    !!d.productDetails.color,
+  6: (d) => d.design.length > 0,
+  7: (d) => d.branding.length > 0,
+  8: (d) =>
+    d.contact.name.trim() &&
+    d.contact.phone.trim() &&
+    d.contact.email.trim() &&
+    d.contact.address.trim(),
+};
+
+const isStepValid = (n, d) => (validators[n] ? !!validators[n](d) : true);
+
 export default function InquiryForm() {
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -16,8 +38,8 @@ export default function InquiryForm() {
   };
 
   const [formData, setFormData] = useState({
-    type: "Sample",
-    category: "Leather Wear",
+    type: null, // CHANGED: no default
+    category: null, // CHANGED: no default
     productType: null,
     printMethod: null,
 
@@ -42,6 +64,16 @@ export default function InquiryForm() {
       additional: "",
     },
   });
+  // ADDED: highest unlocked step = first incomplete step (or 9 if 1-8 are all done).
+  // Derived from formData, so it relocks automatically if an earlier answer is cleared.
+  let unlocked = 1;
+  while (unlocked < 9 && isStepValid(unlocked, formData)) unlocked++;
+
+  // ADDED: jump via pills, only to unlocked steps
+  const goTo = (n) => {
+    if (n <= unlocked) setStep(n);
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -69,7 +101,7 @@ export default function InquiryForm() {
         return <StepEight formData={formData} setFormData={setFormData} />;
 
       case 9:
-        return <StepNine/>;
+        return <StepNine />;
 
       default:
         return null;
@@ -77,10 +109,10 @@ export default function InquiryForm() {
   };
 
   return (
-    <Draggable handle=".window-header" nodeRef={nodeRef}>
+    <Draggable handle=".window-header" cancel="button" nodeRef={nodeRef}>
       <div
         ref={nodeRef}
-        className="absolute right-[10px] bottom-[10px] w-[428px] h-[628px] bg-surface rounded-[10px] px-[5px] pb-[5px]"
+        className="absolute right-[10px] bottom-[10px] w-[428px] max-md:w-[417px] max-w-[calc(100%-4px)] h-[628px] bg-surface rounded-[10px] px-[5px] pb-[5px]"
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
@@ -123,7 +155,8 @@ export default function InquiryForm() {
                 <button
                   type="button"
                   onClick={nextStep}
-                  disabled={step === 9}
+                  // CHANGED: disabled until the next step is unlocked
+                  disabled={step + 1 > unlocked}
                   className="-ml-[11px] cursor-pointer disabled:opacity-30"
                 >
                   <Image
@@ -147,14 +180,18 @@ export default function InquiryForm() {
               <div className="w-full h-full flex items-center gap-[4px]">
                 {Array.from({ length: 9 }, (_, index) => {
                   const item = index + 1;
+                  const locked = item > unlocked; // ADDED
                   return (
                     <button
                       type="button"
-                      onClick={() => setStep(item)}
+                      onClick={() => goTo(item)}
+                      disabled={locked}
                       key={item}
-                      className={`cursor-pointer w-[40px] h-[32px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
+                      className={`${locked ? "cursor-not-allowed" : "cursor-pointer"} w-[40px] h-[32px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
                     >
-                      <span className="font-sf text-[11px] font-bold leading-[16px]">
+                      <span
+                        className={`font-sf text-[11px] font-bold leading-[16px] ${locked ? "text-[#00000040]" : ""}`}
+                      >
                         {String(item).padStart(2, "0")}
                       </span>
                     </button>
@@ -162,7 +199,7 @@ export default function InquiryForm() {
                 })}
               </div>
             </div>
-            <div className="relative w-full flex-1 flex items-center justify-center min-h-0 ">
+            <div className="relative bg-red-500 w-full flex-1 flex items-center justify-center min-h-0 ">
               {renderStep()}
             </div>
           </div>
@@ -219,6 +256,8 @@ function StepTwo({ formData, setFormData }) {
                 setFormData((prev) => ({
                   ...prev,
                   category: item,
+                  // ADDED: category change invalidates the chosen product type
+                  productType: prev.category === item ? prev.productType : null,
                 }))
               }
               className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
