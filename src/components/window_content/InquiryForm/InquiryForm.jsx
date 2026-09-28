@@ -26,6 +26,7 @@ const validators = {
 const isStepValid = (n, d) => (validators[n] ? !!validators[n](d) : true);
 
 export default function InquiryForm() {
+  const [expanded, setExpanded] = useState(false);
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
 
@@ -109,10 +110,13 @@ export default function InquiryForm() {
   };
 
   return (
-    <Draggable handle=".window-header" cancel="button" nodeRef={nodeRef}>
+    <Draggable handle=".drag" cancel="button" nodeRef={nodeRef}>
       <div
         ref={nodeRef}
-        className="absolute right-[10px] bottom-[10px] w-[428px] max-md:w-[417px] max-w-[calc(100%-4px)] h-[628px] bg-surface rounded-[10px] px-[5px] pb-[5px]"
+        onPointerDown={() => setExpanded(true)}
+        className={`drag absolute right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
+          expanded ? "h-[628px]" : "h-[88px]"
+        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
@@ -126,7 +130,14 @@ export default function InquiryForm() {
                   className="select-none"
                 />
               </button>
-              <button type="button" className="cursor-pointer">
+              <button
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  setExpanded(false);
+                }}
+                type="button"
+                className="cursor-pointer"
+              >
                 <Image
                   src="/icons/resize.svg"
                   alt=""
@@ -174,7 +185,7 @@ export default function InquiryForm() {
               </p>
             </div>
           </div>
-          <div className="h-full w-full flex flex-col rounded-[6px] bg-white p-[5px]">
+          <div className="flex-none h-[585px] bg-white min-h-0 w-full flex flex-col rounded-[6px] p-[5px]">
             {/* Inquiry 1-9 nav */}
             <div className="w-full h-fit bg-surface rounded-[50px] p-[4px]">
               <div className="w-full h-full flex items-center gap-[4px]">
@@ -199,7 +210,7 @@ export default function InquiryForm() {
                 })}
               </div>
             </div>
-            <div className="relative bg-red-500 w-full flex-1 flex items-center justify-center min-h-0 ">
+            <div className="relative w-full flex-1 flex items-center justify-center min-h-0 ">
               {renderStep()}
             </div>
           </div>
