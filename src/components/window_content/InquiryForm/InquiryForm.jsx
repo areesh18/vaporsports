@@ -29,7 +29,7 @@ export default function InquiryForm() {
   const [expanded, setExpanded] = useState(false);
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
-
+  const didDrag = useRef(false);
   const previousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
   };
@@ -110,10 +110,25 @@ export default function InquiryForm() {
   };
 
   return (
-    <Draggable handle=".drag" cancel="button" nodeRef={nodeRef}>
+    <Draggable
+      handle=".drag"
+      cancel="button"
+      nodeRef={nodeRef}
+      onStart={() => {
+        didDrag.current = false;
+      }}
+      onDrag={() => {
+        didDrag.current = true;
+      }}
+      onStop={() => {
+        if (!didDrag.current) {
+          setExpanded(true);
+        }
+      }}
+    >
       <div
         ref={nodeRef}
-        onPointerDown={() => setExpanded(true)}
+        
         className={`drag absolute right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px]" : "h-[88px]"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
