@@ -193,7 +193,7 @@ function StepOne({ formData, setFormData }) {
                 formData.type === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-bold leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -272,7 +272,7 @@ function StepThree({ formData, setFormData }) {
       <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select product type.
       </p>
-      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+      <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
         <div className="w-full flex flex-wrap justify-center gap-[4px]">
           {options.map((item) => (
             <button
@@ -314,7 +314,7 @@ function StepFour({ formData, setFormData }) {
       <p className="font-sf text-[11px] font-bold leading-[16px]">
         Select print method.
       </p>
-      <div className="absolute bottom-0 w-full rounded-[14.5px] bg-surface p-[4px]">
+      <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
         <div className="w-full flex flex-wrap justify-center gap-[4px]">
           {printOptions.map((item) => (
             <button
@@ -330,7 +330,7 @@ function StepFour({ formData, setFormData }) {
                 formData.printMethod === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-bold leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] font-bold leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -349,7 +349,7 @@ function StepFive({ formData, setFormData }) {
       <div className="absolute bottom-0 w-full  flex flex-col gap-[5px]">
         <div className="w-full h-[40px] flex items-center gap-[8px]">
           <div className=" w-[140px]  h-full bg-surface rounded-[50px] flex items-center justify-start">
-            <span className="px-[16px] text-[11px] font-sf font-bold leading-[6px] text-muted2">
+            <span className="px-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
               Qty.
             </span>
             <input
@@ -365,12 +365,12 @@ function StepFive({ formData, setFormData }) {
                   },
                 }))
               }
-              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[6px]"
+              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[8px]"
             />
           </div>
           <div className="flex-1 h-full bg-surface rounded-[50px] p-[4px]">
             <div className="w-full h-full flex items-center gap-[4px]">
-              <button className="p-[16px] text-[11px] font-sf font-bold leading-[6px] text-muted2">
+              <button className="p-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
                 Colors
               </button>
               <div className=" h-full flex items-center">
@@ -395,7 +395,7 @@ function StepFive({ formData, setFormData }) {
                   },
                 )}
               </div>
-              <button className="p-[12px] text-[11px] font-sf font-bold leading-[6px] cursor-pointer">
+              <button className="p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
                 Custom
               </button>
             </div>
@@ -403,7 +403,7 @@ function StepFive({ formData, setFormData }) {
         </div>
         <div className="w-full h-[40px] bg-surface rounded-[50px] p-[4px]">
           <div className="w-full h-full flex items-center justify-between">
-            <button className="p-[12px] text-[11px] font-sf font-bold leading-[6px]">
+            <button className="p-[12px] text-[11px] font-sf font-bold leading-[8px]">
               Size
             </button>
             {["XS", "S", "M", "L", "2XL", "3XL"].map((size, index) => {
@@ -425,7 +425,7 @@ function StepFive({ formData, setFormData }) {
                       };
                     })
                   }
-                  className={` rounded-[50px] p-[12px] text-[11px] font-sf  font-bold leading-[6px] cursor-pointer ${
+                  className={` rounded-[50px] p-[12px] text-[11px] font-sf  font-bold leading-[8px] cursor-pointer ${
                     formData.productDetails.sizes.includes(size)
                       ? "bg-white"
                       : ""
@@ -435,7 +435,7 @@ function StepFive({ formData, setFormData }) {
                 </button>
               );
             })}
-            <button className="p-[12px] rounded-[50px] text-[11px] font-sf  font-bold leading-[6px]  cursor-pointer">
+            <button className="p-[12px] rounded-[50px] text-[11px] font-sf  font-bold leading-[8px]  cursor-pointer">
               Custom
             </button>
           </div>
@@ -575,7 +575,7 @@ function StepSeven({ formData, setFormData }) {
                 formData.branding.includes(item) ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] leading-[6px] tracking-[0%]">
+              <span className="font-sf text-[11px] leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -608,10 +608,10 @@ function StepEight({ formData, setFormData }) {
                   },
                 }))
               }
-              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sf text-[11px] leading-[6px]"
+              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sf text-[11px] leading-[8px]"
             />
             {!formData.contact.name && (
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[6px] whitespace-nowrap text-[#00000040]">
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[8px] whitespace-nowrap text-[#00000040]">
                 Full Name<span className="text-[#C70000]">*</span>
               </span>
             )}
@@ -708,7 +708,7 @@ function StyledInput({ value, onChange, label, required = false }) {
   return (
     <div className="relative inline-flex">
       {/* Ghost element - invisible, but takes up real space, defines the box size */}
-      <span className="invisible p-[12px] font-sf text-[11px] leading-[6px] whitespace-nowrap">
+      <span className="invisible p-[12px] font-sf text-[11px] leading-[8px] whitespace-nowrap">
         {label}
         {required && <span>*</span>}
       </span>
@@ -718,12 +718,12 @@ function StyledInput({ value, onChange, label, required = false }) {
         type="text"
         value={value}
         onChange={onChange}
-        className="absolute inset-0 w-full h-full p-[12px] rounded-[50px] bg-white outline-none border-none font-sf text-[11px] leading-[6px]"
+        className="absolute inset-0 w-full h-full p-[12px] rounded-[50px] bg-white outline-none border-none font-sf text-[11px] leading-[8px]"
       />
 
       {/* Placeholder overlay - only shown when empty */}
       {!value && (
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[6px] whitespace-nowrap text-[#00000040] pointer-events-none">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[8px] whitespace-nowrap text-[#00000040] pointer-events-none">
           {label}
           {required && <span className="text-[#C70000]">*</span>}
         </span>
@@ -734,7 +734,7 @@ function StyledInput({ value, onChange, label, required = false }) {
 function StepNine() {
   return (
     <>
-      <p className="font-sf text-[11px] font-bold leading-[6px] text-center">
+      <p className="font-sf text-[11px] font-bold leading-[8px] text-center">
         Form is submitted. Thanks.
       </p>
     </>
