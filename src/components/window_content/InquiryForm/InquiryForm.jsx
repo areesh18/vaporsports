@@ -99,7 +99,7 @@ export default function InquiryForm() {
         return <StepSeven formData={formData} setFormData={setFormData} />;
 
       case 8:
-        return <StepEight formData={formData} setFormData={setFormData} />;
+        return <StepEight formData={formData} setFormData={setFormData} onEnter={() => setStep(9)}/>;
 
       case 9:
         return <StepNine />;
@@ -532,35 +532,37 @@ function StepFive({ formData, setFormData }) {
               Size
             </button>
 
-            {["XS", "S", "M", "L", "2XL", "3XL","Custom"].map((size, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={() =>
-                    setFormData((prev) => {
-                      const sizes = prev.productDetails.sizes;
+            {["XS", "S", "M", "L", "2XL", "3XL", "Custom"].map(
+              (size, index) => {
+                return (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      setFormData((prev) => {
+                        const sizes = prev.productDetails.sizes;
 
-                      return {
-                        ...prev,
-                        productDetails: {
-                          ...prev.productDetails,
-                          sizes: sizes.includes(size)
-                            ? sizes.filter((item) => item !== size)
-                            : [...sizes, size],
-                        },
-                      };
-                    })
-                  }
-                  className={`rounded-[50px] p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer ${
-                    formData.productDetails.sizes.includes(size)
-                      ? "bg-white"
-                      : ""
-                  }`}
-                >
-                  {size}
-                </button>
-              );
-            })}
+                        return {
+                          ...prev,
+                          productDetails: {
+                            ...prev.productDetails,
+                            sizes: sizes.includes(size)
+                              ? sizes.filter((item) => item !== size)
+                              : [...sizes, size],
+                          },
+                        };
+                      })
+                    }
+                    className={`rounded-[50px] p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer ${
+                      formData.productDetails.sizes.includes(size)
+                        ? "bg-white"
+                        : ""
+                    }`}
+                  >
+                    {size}
+                  </button>
+                );
+              },
+            )}
 
             {/* <button className="p-[12px] rounded-[50px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
               Custom
@@ -834,7 +836,6 @@ function hsvToHex(h, s, v) {
   );
 }
 
-
 function StepSix({ formData, setFormData }) {
   const handleUpload = (e) => {
     const files = Array.from(e.target.files || []);
@@ -976,7 +977,7 @@ function StepSeven({ formData, setFormData }) {
     </>
   );
 }
-function StepEight({ formData, setFormData }) {
+function StepEight({ formData, setFormData,onEnter  }) {
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[11px] text-center">
@@ -985,28 +986,6 @@ function StepEight({ formData, setFormData }) {
       </p>
       <div className="absolute bg-surface w-full bottom-0 p-[4px] rounded-[18px]">
         <div className=" flex flex-wrap justify-center gap-[4px]">
-          {/* <div className="relative">
-            <input
-              type="text"
-              placeholder=""
-              value={formData.contact.name}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  contact: {
-                    ...prev.contact,
-                    name: e.target.value,
-                  },
-                }))
-              }
-              className="p-[8px] field-sizing-content rounded-[14.5px] bg-white outline-none border-none font-sf text-[11px] leading-[8px]"
-            />
-            {!formData.contact.name && (
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[8px] whitespace-nowrap text-[#00000040]">
-                Full Name<span className="text-[#C70000]">*</span>
-              </span>
-            )}
-          </div> */}
           <StyledInput
             label="Full Name"
             required={true}
@@ -1090,6 +1069,14 @@ function StepEight({ formData, setFormData }) {
               }))
             }
           />
+          <button
+            type="button"
+            onClick={onEnter}
+            disabled={!isStepValid(8, formData)}
+            className="p-[12px] rounded-[50px] font-sf text-[11px] leading-[8px] cursor-pointer bg-white disabled:opacity-30"
+          >
+            Enter
+          </button>
         </div>
       </div>
     </>
