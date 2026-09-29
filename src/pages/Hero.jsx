@@ -9,7 +9,7 @@ import Credits from "@/components/window_content/Credits";
 import InquiryForm from "@/components/window_content/InquiryForm/InquiryForm";
 export default function Hero() {
   return (
-    <div className="relative h-screen w-full bg-white">
+    <div className="relative h-dvh w-full bg-white">
       <div className="absolute inset-[5px] md:inset-[10px] rounded-2xl overflow-hidden z-0 bg-black ">
         {/* <HeroShader /> */}
         <div
