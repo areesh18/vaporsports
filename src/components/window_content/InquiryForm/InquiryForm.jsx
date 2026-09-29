@@ -128,7 +128,7 @@ export default function InquiryForm() {
     >
       <div
         ref={nodeRef}
-        className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
+        className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-[460px]:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px]" : "h-[88px]"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out delay-150`}
       >
@@ -428,7 +428,7 @@ function StepFive({ formData, setFormData }) {
 
       <div className="absolute bottom-0 w-full flex flex-col gap-[5px]">
         <div className="w-full h-[40px] flex items-center gap-[8px]">
-          <div className="w-[140px] h-full bg-surface rounded-[50px] flex items-center justify-start">
+          <div className="w-[140px] max-[460px]:w-[100px] h-full bg-surface rounded-[50px] flex items-center justify-start">
             <span className="px-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
               Qty.
             </span>
@@ -451,7 +451,7 @@ function StepFive({ formData, setFormData }) {
           </div>
 
           <div className="relative flex-1 h-full bg-surface rounded-[50px] p-[4px]">
-            <div className="w-full h-full flex items-center gap-[4px]">
+            <div className="w-full h-full flex items-center gap-[4px] max-[460px]:justify-between">
               <button className="p-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
                 Colors
               </button>
@@ -473,7 +473,7 @@ function StepFive({ formData, setFormData }) {
                           }))
                         }
                         className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] ${
-                          index !== 0 ? "-ml-[11px]" : ""
+                          index !== 0 ? "-ml-[20px]" : ""
                         } ${
                           formData.productDetails.color === color
                             ? "border"
@@ -497,7 +497,7 @@ function StepFive({ formData, setFormData }) {
                       },
                     }))
                   }
-                  className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] -ml-[11px] ${
+                  className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] -ml-[20px] ${
                     formData.productDetails.color === customColor
                       ? "border"
                       : ""
