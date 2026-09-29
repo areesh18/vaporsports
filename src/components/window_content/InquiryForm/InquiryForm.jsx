@@ -406,17 +406,33 @@ function StepFour({ formData, setFormData }) {
 }
 function StepFive({ formData, setFormData }) {
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customColor, setCustomColor] = useState("#000000");
+
+  const handleCustomColor = (color) => {
+    setCustomColor(color);
+
+    setFormData((prev) => ({
+      ...prev,
+      productDetails: {
+        ...prev.productDetails,
+        color,
+      },
+    }));
+  };
+
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[16px]">
         Enter product details.
       </p>
-      <div className="absolute bottom-0 w-full  flex flex-col gap-[5px]">
+
+      <div className="absolute bottom-0 w-full flex flex-col gap-[5px]">
         <div className="w-full h-[40px] flex items-center gap-[8px]">
-          <div className=" w-[140px]  h-full bg-surface rounded-[50px] flex items-center justify-start">
+          <div className="w-[140px] h-full bg-surface rounded-[50px] flex items-center justify-start">
             <span className="px-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
               Qty.
             </span>
+
             <input
               type="number"
               min="1"
@@ -433,17 +449,20 @@ function StepFive({ formData, setFormData }) {
               className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[8px]"
             />
           </div>
+
           <div className="relative flex-1 h-full bg-surface rounded-[50px] p-[4px]">
             <div className="w-full h-full flex items-center gap-[4px]">
               <button className="p-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
                 Colors
               </button>
-              <div className=" h-full flex items-center">
-                {["#ffffff", "#ff0000", "#ffff00", "#0000ff", "#000000"].map(
+
+              <div className="h-full flex items-center">
+                {["#ffffff", "#ff0000", "#ffff00", "#0000ff"].map(
                   (color, index) => {
                     return (
                       <button
                         key={index}
+                        type="button"
                         onClick={() =>
                           setFormData((prev) => ({
                             ...prev,
@@ -453,13 +472,40 @@ function StepFive({ formData, setFormData }) {
                             },
                           }))
                         }
-                        className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] ${index !== 0 ? "-ml-[11px]" : ""} ${formData.productDetails.color === color ? "border" : ""} `}
+                        className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] ${
+                          index !== 0 ? "-ml-[11px]" : ""
+                        } ${
+                          formData.productDetails.color === color
+                            ? "border"
+                            : ""
+                        }`}
                         style={{ backgroundColor: color }}
                       />
                     );
                   },
                 )}
+
+                {/* Custom color preview */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      productDetails: {
+                        ...prev.productDetails,
+                        color: customColor,
+                      },
+                    }))
+                  }
+                  className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] -ml-[11px] ${
+                    formData.productDetails.color === customColor
+                      ? "border"
+                      : ""
+                  }`}
+                  style={{ backgroundColor: customColor }}
+                />
               </div>
+
               <div className="relative">
                 <button
                   type="button"
@@ -469,28 +515,23 @@ function StepFive({ formData, setFormData }) {
                   Custom
                 </button>
               </div>
+
               {showColorPicker && (
                 <CustomColorPicker
-                  color={formData.productDetails.color || "#ffffff"}
-                  setColor={(color) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      productDetails: {
-                        ...prev.productDetails,
-                        color,
-                      },
-                    }))
-                  }
+                  color={customColor}
+                  setColor={handleCustomColor}
                 />
               )}
             </div>
           </div>
         </div>
+
         <div className="w-full h-[40px] bg-surface rounded-[50px] p-[4px]">
           <div className="w-full h-full flex items-center justify-between">
             <button className="p-[12px] text-[11px] font-sf font-bold leading-[8px]">
               Size
             </button>
+
             {["XS", "S", "M", "L", "2XL", "3XL"].map((size, index) => {
               return (
                 <button
@@ -510,7 +551,7 @@ function StepFive({ formData, setFormData }) {
                       };
                     })
                   }
-                  className={` rounded-[50px] p-[12px] text-[11px] font-sf  font-bold leading-[8px] cursor-pointer ${
+                  className={`rounded-[50px] p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer ${
                     formData.productDetails.sizes.includes(size)
                       ? "bg-white"
                       : ""
@@ -520,7 +561,8 @@ function StepFive({ formData, setFormData }) {
                 </button>
               );
             })}
-            <button className="p-[12px] rounded-[50px] text-[11px] font-sf  font-bold leading-[8px]  cursor-pointer">
+
+            <button className="p-[12px] rounded-[50px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
               Custom
             </button>
           </div>
@@ -531,14 +573,15 @@ function StepFive({ formData, setFormData }) {
 }
 function CustomColorPicker({ color, setColor }) {
   const rgb = hexToRgb(color);
+
   const [hue, setHue] = useState(() => {
-    return rgbToHsl(rgb.r, rgb.g, rgb.b).h;
+    return rgbToHsv(rgb.r, rgb.g, rgb.b).h;
   });
 
   const svDragging = useRef(false);
   const hueDragging = useRef(false);
 
-  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+  const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
 
   const updateRGB = (channel, value) => {
     const nextValue = Math.min(255, Math.max(0, Number(value) || 0));
@@ -548,61 +591,38 @@ function CustomColorPicker({ color, setColor }) {
       [channel]: nextValue,
     };
 
-    const nextColor = rgbToHex(
-      nextRGB.r,
-      nextRGB.g,
-      nextRGB.b,
-    );
+    const nextColor = rgbToHex(nextRGB.r, nextRGB.g, nextRGB.b);
 
     setColor(nextColor);
 
-    const nextHsl = rgbToHsl(
-      nextRGB.r,
-      nextRGB.g,
-      nextRGB.b,
-    );
+    const nextHsv = rgbToHsv(nextRGB.r, nextRGB.g, nextRGB.b);
 
-    setHue(nextHsl.h);
+    setHue(nextHsv.h);
   };
 
   const updateColorArea = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
 
-    const x = Math.max(
-      0,
-      Math.min(e.clientX - rect.left, rect.width),
-    );
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
 
-    const y = Math.max(
-      0,
-      Math.min(e.clientY - rect.top, rect.height),
-    );
+    const y = Math.max(0, Math.min(e.clientY - rect.top, rect.height));
 
-    const saturation = (x / rect.width) * 100;
-    const lightness = 100 - (y / rect.height) * 100;
+    const saturation = x / rect.width;
+    const value = 1 - y / rect.height;
 
-    setColor(hslToHex(hue, saturation, lightness));
+    setColor(hsvToHex(hue, saturation, value));
   };
 
   const updateHue = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
 
-    const x = Math.max(
-      0,
-      Math.min(e.clientX - rect.left, rect.width),
-    );
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
 
     const newHue = (x / rect.width) * 360;
 
     setHue(newHue);
 
-    setColor(
-      hslToHex(
-        newHue,
-        hsl.s,
-        hsl.l,
-      ),
-    );
+    setColor(hsvToHex(newHue, hsv.s, hsv.v));
   };
 
   const handleSVPointerDown = (e) => {
@@ -665,15 +685,19 @@ function CustomColorPicker({ color, setColor }) {
         style={{
           background: `
             linear-gradient(to top, #000, transparent),
-            linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))
+            linear-gradient(
+              to right,
+              #fff,
+              hsl(${hue}, 100%, 50%)
+            )
           `,
         }}
       >
         <div
           className="absolute w-[12px] h-[12px] rounded-full border-2 border-white shadow-[0_0_0_1px_#000]"
           style={{
-            left: `${hsl.s}%`,
-            top: `${100 - hsl.l}%`,
+            left: `${hsv.s * 100}%`,
+            top: `${(1 - hsv.v) * 100}%`,
             transform: "translate(-50%, -50%)",
           }}
         />
@@ -702,24 +726,13 @@ function CustomColorPicker({ color, setColor }) {
 
       {/* RGB */}
       <div className="mt-[8px] flex items-center gap-[8px]">
-        <span className="font-sf text-[11px] font-bold leading-[8px]">
-          RGB
-        </span>
+        <span className="font-sf text-[11px] font-bold leading-[8px]">RGB</span>
 
-        <RGBInput
-          value={rgb.r}
-          onChange={(value) => updateRGB("r", value)}
-        />
+        <RGBInput value={rgb.r} onChange={(value) => updateRGB("r", value)} />
 
-        <RGBInput
-          value={rgb.g}
-          onChange={(value) => updateRGB("g", value)}
-        />
+        <RGBInput value={rgb.g} onChange={(value) => updateRGB("g", value)} />
 
-        <RGBInput
-          value={rgb.b}
-          onChange={(value) => updateRGB("b", value)}
-        />
+        <RGBInput value={rgb.b} onChange={(value) => updateRGB("b", value)} />
       </div>
     </div>
   );
@@ -752,7 +765,7 @@ function rgbToHex(r, g, b) {
   );
 }
 
-function rgbToHsl(r, g, b) {
+function rgbToHsv(r, g, b) {
   r /= 255;
   g /= 255;
   b /= 255;
@@ -760,46 +773,35 @@ function rgbToHsl(r, g, b) {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
 
+  const delta = max - min;
+
   let h = 0;
-  let s = 0;
-  const l = (max + min) / 2;
 
-  if (max !== min) {
-    const d = max - min;
-
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-
-      case g:
-        h = (b - r) / d + 2;
-        break;
-
-      case b:
-        h = (r - g) / d + 4;
-        break;
+  if (delta !== 0) {
+    if (max === r) {
+      h = 60 * (((g - b) / delta) % 6);
+    } else if (max === g) {
+      h = 60 * ((b - r) / delta + 2);
+    } else {
+      h = 60 * ((r - g) / delta + 4);
     }
-
-    h *= 60;
   }
+
+  if (h < 0) h += 360;
+
+  const s = max === 0 ? 0 : delta / max;
 
   return {
     h,
-    s: s * 100,
-    l: l * 100,
+    s,
+    v: max,
   };
 }
 
-function hslToHex(h, s, l) {
-  s /= 100;
-  l /= 100;
-
-  const c = (1 - Math.abs(2 * l - 1)) * s;
+function hsvToHex(h, s, v) {
+  const c = v * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = l - c / 2;
+  const m = v - c;
 
   let r = 0;
   let g = 0;
@@ -831,6 +833,8 @@ function hslToHex(h, s, l) {
     Math.round((b + m) * 255),
   );
 }
+
+
 function StepSix({ formData, setFormData }) {
   const handleUpload = (e) => {
     const files = Array.from(e.target.files || []);
