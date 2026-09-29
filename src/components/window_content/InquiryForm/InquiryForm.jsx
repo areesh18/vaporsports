@@ -128,7 +128,7 @@ export default function InquiryForm() {
     >
       <div
         ref={nodeRef}
-        className={`drag absolute right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
+        className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px]" : "h-[88px]"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out delay-150`}
       >

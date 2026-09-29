@@ -21,16 +21,16 @@ export default function Hero() {
         >
           <LogoSvg className="w-[490px] h-[29px] -rotate-90 md:rotate-0" />
         </div>
-        <Window title="Information" className="left-[10px] top-[10px] w-[418px] h-[325px]">
+        <Window title="Information" className="z-60 left-[10px] top-[10px] max-md:top-[5px] max-md:left-1/2 max-md:-translate-x-1/2 w-[418px] h-[325px]">
           <Information />
         </Window>
-        <Window title="Catalogue" className="left-[10px] bottom-[10px] w-[310px] h-[343px]">
+        <Window title="Catalogue" className="z-80 left-[10px] bottom-[10px] max-md:left-auto max-md:right-[3vw] max-md:bottom-[21vh] w-[310px] h-[343px]">
           <Catalogue/>
         </Window>
-        <Window title="Video" className="right-[244px] top-[10px] w-[310px] h-[343px]">
+        <Window title="Video" className="z-70 right-[244px] top-[10px] max-md:right-auto max-md:left-[3vw] max-md:top-[34.5vh] w-[310px] h-[343px]">
           <Video/>
         </Window>
-        <Window title="Credits" className="right-[15px] top-[10px] w-[210px] h-[243px]">
+        <Window title="Credits" className="z-90 right-[15px] top-[10px] max-md:top-auto max-md:bottom-[6.6vw] max-md:left-1/2 max-md:-translate-x-1/2 w-[210px] h-[243px]">
           <Credits/>
         </Window>
         <InquiryForm/>
