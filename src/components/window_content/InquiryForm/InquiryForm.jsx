@@ -532,7 +532,7 @@ function StepFive({ formData, setFormData }) {
               Size
             </button>
 
-            {["XS", "S", "M", "L", "2XL", "3XL"].map((size, index) => {
+            {["XS", "S", "M", "L", "2XL", "3XL","Custom"].map((size, index) => {
               return (
                 <button
                   key={index}
@@ -562,9 +562,9 @@ function StepFive({ formData, setFormData }) {
               );
             })}
 
-            <button className="p-[12px] rounded-[50px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
+            {/* <button className="p-[12px] rounded-[50px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
               Custom
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
