@@ -112,7 +112,7 @@ export default function InquiryForm() {
   return (
     <Draggable
       handle=".drag"
-      cancel="button,input,textarea,select,label"
+      cancel="button,input,textarea,select,label,.color-picker"
       nodeRef={nodeRef}
       onStart={() => {
         didDrag.current = false;
@@ -128,7 +128,6 @@ export default function InquiryForm() {
     >
       <div
         ref={nodeRef}
-        
         className={`drag absolute right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px]" : "h-[88px]"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
@@ -148,7 +147,7 @@ export default function InquiryForm() {
               <button
                 onPointerDown={(e) => {
                   e.stopPropagation();
-                  setExpanded((prev)=>!prev);
+                  setExpanded((prev) => !prev);
                 }}
                 type="button"
                 className="cursor-pointer"
@@ -406,6 +405,7 @@ function StepFour({ formData, setFormData }) {
   );
 }
 function StepFive({ formData, setFormData }) {
+  const [showColorPicker, setShowColorPicker] = useState(false);
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[16px]">
@@ -433,7 +433,7 @@ function StepFive({ formData, setFormData }) {
               className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[8px]"
             />
           </div>
-          <div className="flex-1 h-full bg-surface rounded-[50px] p-[4px]">
+          <div className="relative flex-1 h-full bg-surface rounded-[50px] p-[4px]">
             <div className="w-full h-full flex items-center gap-[4px]">
               <button className="p-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
                 Colors
@@ -460,9 +460,29 @@ function StepFive({ formData, setFormData }) {
                   },
                 )}
               </div>
-              <button className="p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer">
-                Custom
-              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowColorPicker((prev) => !prev)}
+                  className="p-[12px] text-[11px] font-sf font-bold leading-[8px] cursor-pointer"
+                >
+                  Custom
+                </button>
+              </div>
+              {showColorPicker && (
+                <CustomColorPicker
+                  color={formData.productDetails.color || "#ffffff"}
+                  setColor={(color) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      productDetails: {
+                        ...prev.productDetails,
+                        color,
+                      },
+                    }))
+                  }
+                />
+              )}
             </div>
           </div>
         </div>
@@ -507,6 +527,308 @@ function StepFive({ formData, setFormData }) {
         </div>
       </div>
     </>
+  );
+}
+function CustomColorPicker({ color, setColor }) {
+  const rgb = hexToRgb(color);
+  const [hue, setHue] = useState(() => {
+    return rgbToHsl(rgb.r, rgb.g, rgb.b).h;
+  });
+
+  const svDragging = useRef(false);
+  const hueDragging = useRef(false);
+
+  const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+  const updateRGB = (channel, value) => {
+    const nextValue = Math.min(255, Math.max(0, Number(value) || 0));
+
+    const nextRGB = {
+      ...rgb,
+      [channel]: nextValue,
+    };
+
+    const nextColor = rgbToHex(
+      nextRGB.r,
+      nextRGB.g,
+      nextRGB.b,
+    );
+
+    setColor(nextColor);
+
+    const nextHsl = rgbToHsl(
+      nextRGB.r,
+      nextRGB.g,
+      nextRGB.b,
+    );
+
+    setHue(nextHsl.h);
+  };
+
+  const updateColorArea = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const x = Math.max(
+      0,
+      Math.min(e.clientX - rect.left, rect.width),
+    );
+
+    const y = Math.max(
+      0,
+      Math.min(e.clientY - rect.top, rect.height),
+    );
+
+    const saturation = (x / rect.width) * 100;
+    const lightness = 100 - (y / rect.height) * 100;
+
+    setColor(hslToHex(hue, saturation, lightness));
+  };
+
+  const updateHue = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    const x = Math.max(
+      0,
+      Math.min(e.clientX - rect.left, rect.width),
+    );
+
+    const newHue = (x / rect.width) * 360;
+
+    setHue(newHue);
+
+    setColor(
+      hslToHex(
+        newHue,
+        hsl.s,
+        hsl.l,
+      ),
+    );
+  };
+
+  const handleSVPointerDown = (e) => {
+    e.preventDefault();
+
+    svDragging.current = true;
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+
+    updateColorArea(e);
+  };
+
+  const handleSVPointerMove = (e) => {
+    if (!svDragging.current) return;
+
+    updateColorArea(e);
+  };
+
+  const handleSVPointerUp = (e) => {
+    svDragging.current = false;
+
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+  };
+
+  const handleHuePointerDown = (e) => {
+    e.preventDefault();
+
+    hueDragging.current = true;
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+
+    updateHue(e);
+  };
+
+  const handleHuePointerMove = (e) => {
+    if (!hueDragging.current) return;
+
+    updateHue(e);
+  };
+
+  const handleHuePointerUp = (e) => {
+    hueDragging.current = false;
+
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+  };
+
+  return (
+    <div className="color-picker absolute left-0 bottom-[44px] z-50 w-full bg-surface rounded-[12px] p-[8px]">
+      {/* Color area */}
+      <div
+        onPointerDown={handleSVPointerDown}
+        onPointerMove={handleSVPointerMove}
+        onPointerUp={handleSVPointerUp}
+        onPointerCancel={handleSVPointerUp}
+        className="relative w-full h-[132px] rounded-[4px] overflow-hidden touch-none cursor-crosshair"
+        style={{
+          background: `
+            linear-gradient(to top, #000, transparent),
+            linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))
+          `,
+        }}
+      >
+        <div
+          className="absolute w-[12px] h-[12px] rounded-full border-2 border-white shadow-[0_0_0_1px_#000]"
+          style={{
+            left: `${hsl.s}%`,
+            top: `${100 - hsl.l}%`,
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </div>
+
+      {/* Hue */}
+      <div
+        onPointerDown={handleHuePointerDown}
+        onPointerMove={handleHuePointerMove}
+        onPointerUp={handleHuePointerUp}
+        onPointerCancel={handleHuePointerUp}
+        className="relative mt-[8px] w-full h-[12px] rounded-full touch-none cursor-pointer"
+        style={{
+          background:
+            "linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)",
+        }}
+      >
+        <div
+          className="absolute top-1/2 w-[14px] h-[14px] rounded-full bg-white border border-black"
+          style={{
+            left: `${(hue / 360) * 100}%`,
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </div>
+
+      {/* RGB */}
+      <div className="mt-[8px] flex items-center gap-[8px]">
+        <span className="font-sf text-[11px] font-bold leading-[8px]">
+          RGB
+        </span>
+
+        <RGBInput
+          value={rgb.r}
+          onChange={(value) => updateRGB("r", value)}
+        />
+
+        <RGBInput
+          value={rgb.g}
+          onChange={(value) => updateRGB("g", value)}
+        />
+
+        <RGBInput
+          value={rgb.b}
+          onChange={(value) => updateRGB("b", value)}
+        />
+      </div>
+    </div>
+  );
+}
+function RGBInput({ value, onChange }) {
+  return (
+    <input
+      type="number"
+      min="0"
+      max="255"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="flex-1 min-w-0 h-[40px] bg-white rounded-[50px] px-[12px] text-center font-sf text-[11px] outline-none border-none"
+    />
+  );
+}
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+
+  return {
+    r: parseInt(value.slice(0, 2), 16),
+    g: parseInt(value.slice(2, 4), 16),
+    b: parseInt(value.slice(4, 6), 16),
+  };
+}
+
+function rgbToHex(r, g, b) {
+  return (
+    "#" + [r, g, b].map((value) => value.toString(16).padStart(2, "0")).join("")
+  );
+}
+
+function rgbToHsl(r, g, b) {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+
+      case g:
+        h = (b - r) / d + 2;
+        break;
+
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+
+    h *= 60;
+  }
+
+  return {
+    h,
+    s: s * 100,
+    l: l * 100,
+  };
+}
+
+function hslToHex(h, s, l) {
+  s /= 100;
+  l /= 100;
+
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  if (h < 60) {
+    r = c;
+    g = x;
+  } else if (h < 120) {
+    r = x;
+    g = c;
+  } else if (h < 180) {
+    g = c;
+    b = x;
+  } else if (h < 240) {
+    g = x;
+    b = c;
+  } else if (h < 300) {
+    r = x;
+    b = c;
+  } else {
+    r = c;
+    b = x;
+  }
+
+  return rgbToHex(
+    Math.round((r + m) * 255),
+    Math.round((g + m) * 255),
+    Math.round((b + m) * 255),
   );
 }
 function StepSix({ formData, setFormData }) {
