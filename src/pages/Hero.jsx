@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <div className="relative h-dvh w-full bg-white">
       <div className="absolute inset-[5px] md:inset-[10px] rounded-2xl overflow-hidden z-0 bg-black ">
-        {/* <HeroShader /> */}
+        <HeroShader />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-0 will-change-transform "
           style={{

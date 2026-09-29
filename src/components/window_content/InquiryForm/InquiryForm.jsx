@@ -451,7 +451,7 @@ function StepFive({ formData, setFormData }) {
           </div>
 
           <div className="relative flex-1 h-full bg-surface rounded-[50px] p-[4px]">
-            <div className="w-full h-full flex items-center gap-[4px] max-[460px]:justify-between">
+            <div className="w-full h-full flex items-center gap-[4px] max-md:justify-between">
               <button className="p-[16px] text-[11px] font-sf font-bold leading-[8px] text-muted2">
                 Colors
               </button>
@@ -473,7 +473,7 @@ function StepFive({ formData, setFormData }) {
                           }))
                         }
                         className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] ${
-                          index !== 0 ? "-ml-[20px]" : ""
+                          index !== 0 ? "-ml-[11px] max-[460px]:-ml-[20px]" : ""
                         } ${
                           formData.productDetails.color === color
                             ? "border"
@@ -497,7 +497,7 @@ function StepFive({ formData, setFormData }) {
                       },
                     }))
                   }
-                  className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] -ml-[20px] ${
+                  className={`cursor-pointer w-[32px] h-[32px] rounded-[50px] -ml-[11px] max-[460px]:-ml-[20px] ${
                     formData.productDetails.color === customColor
                       ? "border"
                       : ""
