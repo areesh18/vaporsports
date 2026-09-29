@@ -130,7 +130,7 @@ export default function InquiryForm() {
         ref={nodeRef}
         className={`drag absolute right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-md:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px]" : "h-[88px]"
-        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
+        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out delay-150`}
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
