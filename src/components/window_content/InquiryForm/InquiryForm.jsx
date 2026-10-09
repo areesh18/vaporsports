@@ -9,7 +9,7 @@ const validators = {
   1: (d) => !!d.type,
   2: (d) => !!d.category,
   3: (d) => d.productType.length > 0,
-  4: (d) => !!d.printMethod,
+  4: (d) => d.printMethod.length > 0,
   5: (d) =>
     Number(d.productDetails.quantity) > 0 &&
     d.productDetails.sizes.length > 0 &&
@@ -42,7 +42,7 @@ export default function InquiryForm() {
     type: null, // CHANGED: no default
     category: null, // CHANGED: no default
     productType: [],
-    printMethod: null,
+    printMethod: [],
 
     productDetails: {
       quantity: "",
@@ -382,6 +382,14 @@ function StepFour({ formData, setFormData }) {
     "Heat Transfer",
     "Others",
   ];
+  const togglePrintMethod = (item) => {
+    setFormData((prev) => ({
+      ...prev,
+      printMethod: prev.printMethod.includes(item)
+        ? prev.printMethod.filter((method) => method !== item)
+        : [...prev.printMethod, item],
+    }));
+  };
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[16px]">
@@ -393,14 +401,9 @@ function StepFour({ formData, setFormData }) {
             <button
               key={item}
               type="button"
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  printMethod: item,
-                }))
-              }
+              onClick={() => togglePrintMethod(item)}
               className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
-                formData.printMethod === item ? "bg-white" : ""
+                formData.printMethod.includes(item) ? "bg-white" : ""
               }`}
             >
               <span className="font-sf text-[11px] font-bold leading-[8px] tracking-[0%]">
