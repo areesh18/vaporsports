@@ -139,8 +139,8 @@ export default function InquiryForm() {
                 <Image
                   src="/icons/close.svg"
                   alt=""
-                  width={12}
-                  height={12}
+                  width={11}
+                  height={11}
                   className="select-none"
                 />
               </button>
@@ -155,8 +155,8 @@ export default function InquiryForm() {
                 <Image
                   src="/icons/resize.svg"
                   alt=""
-                  width={12}
-                  height={12}
+                  width={11}
+                  height={11}
                   className="select-none"
                 />
               </button>
@@ -194,7 +194,7 @@ export default function InquiryForm() {
                   />
                 </button>
               </div>
-              <p className="font-sf text-muted text-[13px] font-bold tracking-[0px] leading-[16px]">
+              <p className="font-sf text-muted text-[11px] font-bold tracking-[0px] leading-[16px]">
                 Inquiry Form
               </p>
             </div>
