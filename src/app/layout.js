@@ -1,7 +1,10 @@
-import localFont from "next/font/local";
+import { Geist} from "next/font/google";
 import "./globals.css";
-
-const sfProBold = localFont({
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin"],
+});
+/* const sfProBold = localFont({
   src: "./fonts/SFPRODISPLAYBOLD.woff2",
   variable: "--font-sf-pro",
   display: "swap",
@@ -9,16 +12,6 @@ const sfProBold = localFont({
 
 const sfProMedium = localFont({
   src: "./fonts/SFPRODISPLAYMEDIUM.woff2",
-  variable: "--font-sf-pro-med",
-  display: "swap",
-});
-/* const sfProBold = localFont({
-  src: "./fonts/SF-Pro-Text-Bold.woff2", 
-  variable: "--font-sf-pro",
-  display: "swap",
-});
-const sfProMedium = localFont({
-  src: "./fonts/SF-Pro-Text-Medium.woff2", 
   variable: "--font-sf-pro-med",
   display: "swap",
 }); */
@@ -30,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${sfProBold.variable} ${sfProMedium.variable}`}>
+    <html lang="en" className={`${geist.variable} `}>
       <body className="antialiased">{children}</body>
     </html>
   );
