@@ -175,8 +175,8 @@ export default function InquiryForm() {
       <div
         ref={nodeRef}
         className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-[460px]:w-[417px] max-w-[calc(100%-8px)] ${
-          expanded ? "h-[628px]" : "h-[93px]"
-        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out delay-150`}
+          expanded ? "h-[628px] delay-0" : "h-[93px] delay-150"
+        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
@@ -270,7 +270,13 @@ export default function InquiryForm() {
                 })}
               </div>
             </div>
-            <div className="relative w-full flex-1 flex items-center justify-center min-h-0 overflow-hidden ">
+            <div
+              className={`relative w-full flex-1 flex items-center justify-center min-h-0 overflow-hidden transition-opacity duration-150 ease-out ${
+                expanded
+                  ? "opacity-100 delay-300"
+                  : "opacity-0 delay-0 pointer-events-none"
+              }`}
+            >
               {renderStep()}
             </div>
           </div>
@@ -1029,7 +1035,7 @@ function StepSeven({ formData, setFormData }) {
     </>
   );
 }
-function StepEight({ formData, setFormData, onEnter,isSubmitting  }) {
+function StepEight({ formData, setFormData, onEnter, isSubmitting }) {
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[11px] text-center">
