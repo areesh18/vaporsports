@@ -2,12 +2,20 @@
 import Image from "next/image";
 import { useRef } from "react";
 import Draggable from "react-draggable";
-export default function Window({ title, children, className = "" }) {
+export default function Window({
+  title,
+  children,
+  className = "",
+  zIndex,
+  onFocus,
+}) {
   const nodeRef = useRef(null);
   return (
     <Draggable handle=".window-header" nodeRef={nodeRef}>
       <div
         ref={nodeRef}
+        style={{ zIndex }}
+        onPointerDownCapture={onFocus}
         className={`absolute bg-surface rounded-[10px] px-[5px] pb-[5px] ${className}`}
       >
         <div className="w-full h-full flex flex-col">

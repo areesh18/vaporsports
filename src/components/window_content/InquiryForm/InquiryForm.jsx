@@ -25,7 +25,7 @@ const validators = {
 
 const isStepValid = (n, d) => (validators[n] ? !!validators[n](d) : true);
 
-export default function InquiryForm() {
+export default function InquiryForm({ zIndex, onFocus }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const nodeRef = useRef(null);
@@ -174,6 +174,8 @@ export default function InquiryForm() {
     >
       <div
         ref={nodeRef}
+        style={{ zIndex }}
+        onPointerDownCapture={onFocus}
         className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-[460px]:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px] delay-0" : "h-[93px] delay-150"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
