@@ -26,6 +26,7 @@ const validators = {
 const isStepValid = (n, d) => (validators[n] ? !!validators[n](d) : true);
 
 export default function InquiryForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -36,6 +37,44 @@ export default function InquiryForm() {
 
   const nextStep = () => {
     setStep((prev) => Math.min(prev + 1, 9));
+  };
+
+  const submitInquiry = async () => {
+    if (isSubmitting || !isStepValid(8, formData)) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const body = new FormData();
+
+      const { design, ...dataWithoutDesign } = formData;
+
+      body.append("data", JSON.stringify(dataWithoutDesign));
+
+      design.forEach((item) => {
+        if (item.file) {
+          body.append("designs", item.file, item.file.name);
+        }
+      });
+
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
+        body,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send inquiry.");
+      }
+
+      setStep(9);
+    } catch (error) {
+      console.error("Inquiry submission failed:", error);
+      window.alert(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const [formData, setFormData] = useState({
@@ -103,7 +142,8 @@ export default function InquiryForm() {
           <StepEight
             formData={formData}
             setFormData={setFormData}
-            onEnter={() => setStep(9)}
+            onEnter={submitInquiry}
+            isSubmitting={isSubmitting}
           />
         );
 
@@ -989,7 +1029,7 @@ function StepSeven({ formData, setFormData }) {
     </>
   );
 }
-function StepEight({ formData, setFormData, onEnter }) {
+function StepEight({ formData, setFormData, onEnter,isSubmitting  }) {
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[11px] text-center">
@@ -1084,10 +1124,10 @@ function StepEight({ formData, setFormData, onEnter }) {
           <button
             type="button"
             onClick={onEnter}
-            disabled={!isStepValid(8, formData)}
+            disabled={!isStepValid(8, formData) || isSubmitting}
             className="p-[12px] rounded-[50px] font-sf text-[11px] leading-[8px] cursor-pointer bg-white disabled:opacity-30"
           >
-            Enter
+            {isSubmitting ? "Sending..." : "Enter"}
           </button>
         </div>
       </div>
