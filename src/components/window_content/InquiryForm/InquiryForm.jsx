@@ -175,7 +175,7 @@ export default function InquiryForm() {
       <div
         ref={nodeRef}
         className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-[460px]:w-[417px] max-w-[calc(100%-8px)] ${
-          expanded ? "h-[628px]" : "h-[88px]"
+          expanded ? "h-[628px]" : "h-[93px]"
         } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out delay-150`}
       >
         <div className="w-full h-full flex flex-col">
@@ -245,7 +245,7 @@ export default function InquiryForm() {
               </p>
             </div>
           </div>
-          <div className="flex-none h-[585px] bg-white min-h-0 w-full flex flex-col rounded-[6px] p-[5px]">
+          <div className="flex-1 min-h-0 bg-white  w-full flex flex-col rounded-[6px] p-[5px]">
             {/* Inquiry 1-9 nav */}
             <div className="w-full h-fit bg-surface rounded-[50px] p-[4px]">
               <div className="w-full h-full flex items-center gap-[4px]">
@@ -270,7 +270,7 @@ export default function InquiryForm() {
                 })}
               </div>
             </div>
-            <div className="relative w-full flex-1 flex items-center justify-center min-h-0 ">
+            <div className="relative w-full flex-1 flex items-center justify-center min-h-0 overflow-hidden ">
               {renderStep()}
             </div>
           </div>
