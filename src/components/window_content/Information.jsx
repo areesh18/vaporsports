@@ -1,7 +1,7 @@
 export default function Information() {
   return (
     <div className="p-[11px]">
-      <p className="font-sf font-bold text-[11px] leading-[13px] tracking-[0px]">
+      <p className="font-sf font-bold text-[11px] leading-[13px] tracking-[0.5px]">
         Vapor Sports® is an OEM and custom apparel manufacturer<br/>{" "}specializing in
         performance sportswear, technical outerwear,<br/>{" "}and custom garments. We
         partner with independent labels and<br/>{" "}athletic brands to manage complete

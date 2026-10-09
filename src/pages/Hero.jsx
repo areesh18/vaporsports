@@ -42,7 +42,7 @@ export default function Hero() {
           title="Information"
           zIndex={zOf("information")}
           onFocus={() => bringToFront("information")}
-          className=" left-[10px] top-[10px] max-md:top-[5px] max-md:left-1/2 max-md:-translate-x-1/2 w-[418px] h-[325px]"
+          className=" left-[10px] top-[10px] max-md:top-[5px] max-md:left-1/2 max-md:-translate-x-1/2 w-[384px] h-[269px]"
         >
           <Information />
         </Window>
