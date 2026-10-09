@@ -8,7 +8,7 @@ import { useState } from "react";
 const validators = {
   1: (d) => !!d.type,
   2: (d) => !!d.category,
-  3: (d) => !!d.productType,
+  3: (d) => d.productType.length > 0,
   4: (d) => !!d.printMethod,
   5: (d) =>
     Number(d.productDetails.quantity) > 0 &&
@@ -41,7 +41,7 @@ export default function InquiryForm() {
   const [formData, setFormData] = useState({
     type: null, // CHANGED: no default
     category: null, // CHANGED: no default
-    productType: null,
+    productType: [],
     printMethod: null,
 
     productDetails: {
@@ -99,7 +99,13 @@ export default function InquiryForm() {
         return <StepSeven formData={formData} setFormData={setFormData} />;
 
       case 8:
-        return <StepEight formData={formData} setFormData={setFormData} onEnter={() => setStep(9)}/>;
+        return (
+          <StepEight
+            formData={formData}
+            setFormData={setFormData}
+            onEnter={() => setStep(9)}
+          />
+        );
 
       case 9:
         return <StepNine />;
@@ -282,7 +288,7 @@ function StepTwo({ formData, setFormData }) {
                   ...prev,
                   category: item,
                   // ADDED: category change invalidates the chosen product type
-                  productType: prev.category === item ? prev.productType : null,
+                  productType: prev.category === item ? prev.productType : [],
                 }))
               }
               className={` p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
@@ -331,6 +337,14 @@ function StepThree({ formData, setFormData }) {
     ],
   };
   const options = productOptions[formData.category] || [];
+  const toggleProductType = (item) => {
+    setFormData((prev) => ({
+      ...prev,
+      productType: prev.productType.includes(item)
+        ? prev.productType.filter((product) => product !== item)
+        : [...prev.productType, item],
+    }));
+  };
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[16px]">
@@ -342,14 +356,9 @@ function StepThree({ formData, setFormData }) {
             <button
               key={item}
               type="button"
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  productType: item,
-                }))
-              }
+              onClick={() => toggleProductType(item)}
               className={`p-[12px] rounded-[50px] flex items-center justify-center cursor-pointer ${
-                formData.productType === item ? "bg-white" : ""
+                formData.productType.includes(item) ? "bg-white" : ""
               }`}
             >
               <span className="font-sf text-[11px] font-bold leading-[7px] tracking-[0%]">
@@ -977,7 +986,7 @@ function StepSeven({ formData, setFormData }) {
     </>
   );
 }
-function StepEight({ formData, setFormData,onEnter  }) {
+function StepEight({ formData, setFormData, onEnter }) {
   return (
     <>
       <p className="font-sf text-[11px] font-bold leading-[11px] text-center">
