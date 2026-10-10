@@ -2,27 +2,36 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+
 import passthroughVertex from "@/shaders/vertex.glsl";
 import fieldFragment from "@/shaders/fieldPass.frag.glsl";
 import compositeFragment from "@/shaders/composite.frag.glsl";
 
 const MAX_DPR = 1;
-// The noise field is rendered at this fraction of the container size, then
-// upsampled (bilinear) in the composite pass. The field is inherently soft
-// (it's blurred noise), so this is visually lossless while cutting the
-// expensive fbm work by roughly FIELD_SCALE^2.
 const FIELD_SCALE = 0.5;
+
+const MOBILE_BREAKPOINT = 768;
+const MOBILE_FPS = 30;
 
 export default function HeroShader() {
   const containerRef = useRef(null);
 
   useEffect(() => {
     const container = containerRef.current;
+
+    if (!container) return;
+
     let disposed = false;
     let running = false;
     let frame;
+    let lastFrameTime = 0;
 
-    const dpr = Math.min(window.devicePixelRatio, MAX_DPR);
+    const isMobile = window.matchMedia(
+      `(max-width: ${MOBILE_BREAKPOINT}px)`,
+    ).matches;
+
+    const frameInterval = isMobile ? 1000 / MOBILE_FPS : 0;
+    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
@@ -31,37 +40,38 @@ export default function HeroShader() {
       stencil: false,
       powerPreference: "high-performance",
     });
+
     renderer.setPixelRatio(dpr);
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.autoClear = false;
 
     const canvas = renderer.domElement;
+
     canvas.style.opacity = "0";
     canvas.style.transition = "opacity .8s ease";
     canvas.style.display = "block";
+
     container.appendChild(canvas);
 
-    // -- Shared fullscreen quad geometry/camera for both passes --
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
     const geometry = new THREE.PlaneGeometry(2, 2);
 
-    // -- Pass 1: expensive noise field, rendered small --
+    // Pass 1: procedural field at reduced resolution.
     const fieldUniforms = {
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2() },
-      // Real full-resolution canvas height, kept separate from the field
-      // target's own (smaller) resolution — needed so BLOOM_PX scales
-      // correctly regardless of FIELD_SCALE.
-      uFullResY: { value: 1 },
     };
+
     const fieldMaterial = new THREE.ShaderMaterial({
       vertexShader: passthroughVertex,
       fragmentShader: fieldFragment,
       uniforms: fieldUniforms,
     });
-    const fieldMesh = new THREE.Mesh(geometry, fieldMaterial);
+
     const fieldScene = new THREE.Scene();
-    fieldScene.add(fieldMesh);
+
+    fieldScene.add(new THREE.Mesh(geometry, fieldMaterial));
 
     const fieldTarget = new THREE.WebGLRenderTarget(1, 1, {
       minFilter: THREE.LinearFilter,
@@ -72,76 +82,73 @@ export default function HeroShader() {
       stencilBuffer: false,
     });
 
-    // -- Pass 2: cheap fullscreen composite (mask + CA + LUT + grain) --
+    // Pass 2: blur reconstruction, mask, color and grain.
     const compositeUniforms = {
       uField: { value: fieldTarget.texture },
       uResolution: { value: new THREE.Vector2() },
       uTime: { value: 0 },
     };
+
     const compositeMaterial = new THREE.ShaderMaterial({
       vertexShader: passthroughVertex,
       fragmentShader: compositeFragment,
       uniforms: compositeUniforms,
     });
-    const compositeMesh = new THREE.Mesh(geometry, compositeMaterial);
+
     const compositeScene = new THREE.Scene();
-    compositeScene.add(compositeMesh);
+
+    compositeScene.add(new THREE.Mesh(geometry, compositeMaterial));
 
     const resize = () => {
-      const w = Math.max(1, container.clientWidth);
-      const h = Math.max(1, container.clientHeight);
+      const width = Math.max(1, container.clientWidth);
+      const height = Math.max(1, container.clientHeight);
 
-      renderer.setSize(w, h);
-      compositeUniforms.uResolution.value.set(w * dpr, h * dpr);
+      renderer.setSize(width, height);
 
-      const fw = Math.max(1, Math.round(w * dpr * FIELD_SCALE));
-      const fh = Math.max(1, Math.round(h * dpr * FIELD_SCALE));
-      fieldTarget.setSize(fw, fh);
-      fieldUniforms.uResolution.value.set(fw, fh);
-      fieldUniforms.uFullResY.value = h * dpr;
+      compositeUniforms.uResolution.value.set(width * dpr, height * dpr);
+
+      const fieldWidth = Math.max(1, Math.round(width * dpr * FIELD_SCALE));
+
+      const fieldHeight = Math.max(1, Math.round(height * dpr * FIELD_SCALE));
+
+      fieldTarget.setSize(fieldWidth, fieldHeight);
+
+      fieldUniforms.uResolution.value.set(fieldWidth, fieldHeight);
     };
+
     resize();
+
     window.addEventListener("resize", resize);
-
-    // -- Context loss: stop cleanly instead of spamming a dead canvas --
-    const handleContextLost = (e) => {
-      e.preventDefault();
-      running = false;
-      cancelAnimationFrame(frame);
-    };
-    const handleContextRestored = () => {
-      if (!disposed) start();
-    };
-    canvas.addEventListener("webglcontextlost", handleContextLost, false);
-    canvas.addEventListener(
-      "webglcontextrestored",
-      handleContextRestored,
-      false,
-    );
-
-    // -- Pause when tab/section isn't visible --
-    const handleVisibility = () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(frame);
-      } else if (!disposed) {
-        start();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibility);
 
     const timer = new THREE.Timer();
 
     const animate = (timestamp) => {
-      if (!running) return;
-      timer.update(timestamp);
-      const t = timer.getElapsed();
-      fieldUniforms.uTime.value = t;
-      compositeUniforms.uTime.value = t;
+      if (!running || disposed) return;
 
+      // Limit actual GPU rendering on narrow screens.
+      if (
+        frameInterval > 0 &&
+        lastFrameTime !== 0 &&
+        timestamp - lastFrameTime < frameInterval
+      ) {
+        frame = requestAnimationFrame(animate);
+        return;
+      }
+
+      lastFrameTime = timestamp;
+
+      timer.update(timestamp);
+
+      const time = timer.getElapsed();
+
+      fieldUniforms.uTime.value = time;
+      compositeUniforms.uTime.value = time;
+
+      // Pass 1: render the expensive field.
       renderer.setRenderTarget(fieldTarget);
       renderer.render(fieldScene, camera);
 
+      // Pass 2: composite to the screen.
       renderer.setRenderTarget(null);
       renderer.render(compositeScene, camera);
 
@@ -149,43 +156,94 @@ export default function HeroShader() {
     };
 
     const start = () => {
-      if (running) return;
+      if (disposed || running || document.hidden) return;
+
       running = true;
-      animate(performance.now());
+      lastFrameTime = 0;
+
+      frame = requestAnimationFrame(animate);
     };
 
-    renderer.compileAsync(fieldScene, camera).then(() => {
-      if (disposed) return; // React StrictMode unmounted us mid-compile
-      start();
-      canvas.style.opacity = "1";
-    });
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(frame);
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    const handleContextLost = (event) => {
+      event.preventDefault();
+      stop();
+    };
+
+    const handleContextRestored = () => {
+      if (!disposed && !document.hidden) {
+        start();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    canvas.addEventListener("webglcontextlost", handleContextLost, false);
+
+    canvas.addEventListener(
+      "webglcontextrestored",
+      handleContextRestored,
+      false,
+    );
+
+    // Compile both passes before revealing the canvas.
+    Promise.all([
+      renderer.compileAsync(fieldScene, camera),
+      renderer.compileAsync(compositeScene, camera),
+    ])
+      .then(() => {
+        if (disposed) return;
+
+        canvas.style.opacity = "1";
+        start();
+      })
+      .catch((error) => {
+        if (!disposed) {
+          console.error("Hero shader compilation failed:", error);
+        }
+      });
 
     return () => {
       disposed = true;
-      running = false;
-      cancelAnimationFrame(frame);
+      stop();
+
       window.removeEventListener("resize", resize);
+
       document.removeEventListener("visibilitychange", handleVisibility);
+
       canvas.removeEventListener("webglcontextlost", handleContextLost);
+
       canvas.removeEventListener("webglcontextrestored", handleContextRestored);
 
       fieldMaterial.dispose();
       compositeMaterial.dispose();
       geometry.dispose();
       fieldTarget.dispose();
+
       renderer.dispose();
       renderer.forceContextLoss();
 
-      if (canvas.parentNode === container) container.removeChild(canvas);
+      if (canvas.parentNode === container) {
+        container.removeChild(canvas);
+      }
     };
   }, []);
 
   return (
     <div className="absolute inset-0">
-      <div
-        ref={containerRef}
-        className=" h-full w-full"
-      />
+      <div ref={containerRef} className="h-full w-full" />
     </div>
   );
 }
