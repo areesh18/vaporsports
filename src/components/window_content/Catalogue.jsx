@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 const images = ["/catalogue/1.png", "/catalogue/2.png", "/catalogue/3.png"];
-export default function Catalogue({registerNavigation }) {
+export default function Catalogue({ registerNavigation }) {
   const [index, setIndex] = useState(0);
   const previous = () => {
     setIndex((current) => (current - 1 + images.length) % images.length);
@@ -11,8 +11,15 @@ export default function Catalogue({registerNavigation }) {
     setIndex((current) => (current + 1) % images.length);
   };
   useEffect(() => {
+    images.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
+  useEffect(() => {
     registerNavigation?.({ previous, next });
   }, [registerNavigation]);
+
   return (
     <div className="relative w-full h-full flex items-center justify-center ">
       <Image

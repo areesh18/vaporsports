@@ -13,7 +13,7 @@ export default function Window({
 }) {
   const nodeRef = useRef(null);
   return (
-    <Draggable handle=".window-header" nodeRef={nodeRef}>
+    <Draggable handle=".window-header" cancel=".no-drag" nodeRef={nodeRef}>
       <div
         ref={nodeRef}
         style={{ zIndex }}
@@ -48,9 +48,9 @@ export default function Window({
                 <button
                   type="button"
                   onClick={onPrevious}
-                  disabled={!onPrevious}
+                  
                   aria-label="Previous"
-                  className="cursor-pointer disabled:cursor-default"
+                  className="no-drag cursor-pointer"
                 >
                   <Image
                     src="/icons/chevron_left.svg"
@@ -65,9 +65,9 @@ export default function Window({
                 <button
                   type="button"
                   onClick={onNext}
-                  disabled={!onNext}
+                  
                   aria-label="Next"
-                  className="-ml-[11px] cursor-pointer disabled:cursor-default"
+                  className="no-drag -ml-[11px] cursor-pointer"
                 >
                   <Image
                     src="/icons/chevron_right.svg"
