@@ -19,7 +19,6 @@ export default function Catalogue({registerNavigation }) {
         src={images[index]}
         fill
         preload
-        priority
         alt="Catalogue Tshirt"
         className="object-cover object-top"
       />
