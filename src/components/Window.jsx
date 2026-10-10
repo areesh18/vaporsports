@@ -27,6 +27,7 @@ export default function Window({
                 <Image
                   src="/icons/close.svg"
                   alt=""
+                  preload
                   width={11}
                   height={11}
                   className="select-none"
@@ -36,6 +37,7 @@ export default function Window({
                 <Image
                   src="/icons/resize.svg"
                   alt=""
+                  preload
                   width={11}
                   height={11}
                   className="select-none"
@@ -53,6 +55,7 @@ export default function Window({
                   <Image
                     src="/icons/chevron_left.svg"
                     alt=""
+                    preload
                     width={32}
                     height={38}
                     draggable={false}
@@ -69,6 +72,7 @@ export default function Window({
                   <Image
                     src="/icons/chevron_right.svg"
                     alt=""
+                    preload
                     width={32}
                     height={38}
                     draggable={false}

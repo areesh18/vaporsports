@@ -186,6 +186,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
               <button type="button" className="cursor-pointer">
                 <Image
                   src="/icons/close.svg"
+                  preload
                   alt=""
                   width={11}
                   height={11}
@@ -203,6 +204,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
                 <Image
                   src="/icons/resize.svg"
                   alt=""
+                  preload
                   width={11}
                   height={11}
                   className="select-none"
@@ -219,6 +221,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
                   <Image
                     src="/icons/chevron_left.svg"
                     alt=""
+                    preload
                     width={32}
                     height={38}
                     draggable={false}
@@ -235,6 +238,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
                   <Image
                     src="/icons/chevron_right.svg"
                     alt=""
+                    preload
                     width={32}
                     height={38}
                     draggable={false}
