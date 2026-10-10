@@ -85,7 +85,7 @@ export default function Window({
               </p>
             </div>
           </div>
-          <div className="h-full w-full rounded-[6px] bg-white">{children}</div>
+          <div className="h-full w-full rounded-[6px] bg-white overflow-hidden">{children}</div>
         </div>
       </div>
     </Draggable>
