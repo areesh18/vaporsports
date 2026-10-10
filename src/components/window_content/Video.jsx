@@ -28,7 +28,7 @@ export default function Video() {
         className="absolute inset-0 w-full h-full object-cover"
         /* controls={isPlaying} */
         playsInline
-        preload="metadata"
+        preload
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={() => setIsPlaying(false)}
