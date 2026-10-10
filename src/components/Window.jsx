@@ -8,6 +8,8 @@ export default function Window({
   className = "",
   zIndex,
   onFocus,
+  onPrevious,
+  onNext,
 }) {
   const nodeRef = useRef(null);
   return (
@@ -41,7 +43,13 @@ export default function Window({
               </button>
               {/* Chevrons add later */}
               <div className="flex items-center ">
-                <button className="cursor-pointer">
+                <button
+                  type="button"
+                  onClick={onPrevious}
+                  disabled={!onPrevious}
+                  aria-label="Previous"
+                  className="cursor-pointer disabled:cursor-default"
+                >
                   <Image
                     src="/icons/chevron_left.svg"
                     alt=""
@@ -51,7 +59,13 @@ export default function Window({
                     className=" select-none"
                   />
                 </button>
-                <button className="-ml-[11px] cursor-pointer">
+                <button
+                  type="button"
+                  onClick={onNext}
+                  disabled={!onNext}
+                  aria-label="Next"
+                  className="-ml-[11px] cursor-pointer disabled:cursor-default"
+                >
                   <Image
                     src="/icons/chevron_right.svg"
                     alt=""
