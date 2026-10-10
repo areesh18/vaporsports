@@ -18,6 +18,8 @@ export default function Catalogue({registerNavigation }) {
       <Image
         src={images[index]}
         fill
+        preload
+        priority
         alt="Catalogue Tshirt"
         className="object-cover object-top"
       />
