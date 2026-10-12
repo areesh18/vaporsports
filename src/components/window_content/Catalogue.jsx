@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-const images = ["/catalogue/1.png", "/catalogue/2.png", "/catalogue/3.png"];
+const images = ["/catalogue/1.png", "/catalogue/2.png", "/catalogue/3.png","/catalogue/4.png","/catalogue/5.png","/catalogue/6.png"];
 export default function Catalogue({ registerNavigation }) {
   const [index, setIndex] = useState(0);
   const previous = () => {
