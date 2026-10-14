@@ -14,8 +14,8 @@ export default function Hero() {
     "information",
     "video",
     "catalogue",
-    "credits",
     "inquiry",
+    "credits",
   ]);
   const bringToFront = (id) =>
     setOrder((prev) =>
