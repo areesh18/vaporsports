@@ -11,11 +11,11 @@ import { useState, useCallback } from "react";
 const BASE_Z = 60;
 export default function Hero() {
   const [order, setOrder] = useState([
-    "information",
-    "video",
-    "catalogue",
-    "inquiry",
     "credits",
+    "inquiry",
+    "catalogue",
+    "video",
+    "information",
   ]);
   const bringToFront = (id) =>
     setOrder((prev) =>
