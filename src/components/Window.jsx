@@ -13,8 +13,9 @@ export default function Window({
 }) {
   const nodeRef = useRef(null);
   return (
-    <Draggable handle=".window-header" cancel=".no-drag" nodeRef={nodeRef}>
+    <Draggable handle=".window-header" cancel=".no-drag" nodeRef={nodeRef} bounds="parent">
       <div
+        
         ref={nodeRef}
         style={{ zIndex }}
         onPointerDownCapture={onFocus}
@@ -48,7 +49,6 @@ export default function Window({
                 <button
                   type="button"
                   onClick={onPrevious}
-                  
                   aria-label="Previous"
                   className="no-drag cursor-pointer"
                 >
@@ -65,7 +65,6 @@ export default function Window({
                 <button
                   type="button"
                   onClick={onNext}
-                  
                   aria-label="Next"
                   className="no-drag -ml-[11px] cursor-pointer"
                 >
@@ -85,7 +84,9 @@ export default function Window({
               </p>
             </div>
           </div>
-          <div className="h-full w-full rounded-[6px] bg-white overflow-hidden">{children}</div>
+          <div className="h-full w-full rounded-[6px] bg-white overflow-hidden">
+            {children}
+          </div>
         </div>
       </div>
     </Draggable>

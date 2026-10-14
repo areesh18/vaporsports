@@ -158,6 +158,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
   return (
     <Draggable
       handle=".drag"
+      bounds="parent"
       cancel="button,input,textarea,select,label,.color-picker"
       nodeRef={nodeRef}
       onStart={() => {
