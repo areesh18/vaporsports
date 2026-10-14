@@ -299,7 +299,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
                   />
                 </button>
               </div>
-              <p className="font-sf text-muted text-[11px] font-medium tracking-[0px] leading-[16px]">
+              <p className="font-sf text-muted text-[12px] font-medium tracking-[0px] leading-[16px]">
                 Inquiry Form
               </p>
             </div>
@@ -320,7 +320,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
                       className={`${locked ? "cursor-not-allowed" : "cursor-pointer"} w-[40px] h-[32px] rounded-[50px] flex items-center justify-center ${step === item ? "bg-white" : ""}`}
                     >
                       <span
-                        className={`font-sf text-[11px] font-medium leading-[16px] ${locked ? "text-[#00000040]" : ""}`}
+                        className={`font-sf text-[12px] font-medium leading-[16px] ${locked ? "text-[#00000040]" : ""}`}
                       >
                         {String(item).padStart(2, "0")}
                       </span>
@@ -347,7 +347,7 @@ export default function InquiryForm({ zIndex, onFocus }) {
 function StepOne({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         What are you looking for?
       </p>
       <div className="absolute bottom-0 w-fit h-[40px] rounded-[50px] bg-surface p-[4px]">
@@ -366,7 +366,7 @@ function StepOne({ formData, setFormData }) {
                 formData.type === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-medium leading-[8px] tracking-[0%]">
+              <span className="font-sf text-[12px] font-medium leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -379,7 +379,7 @@ function StepOne({ formData, setFormData }) {
 function StepTwo({ formData, setFormData }) {
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Select product category.
       </p>
       <div className="absolute bottom-0 w-fit h-[40px] rounded-[50px] bg-surface p-[4px]">
@@ -400,7 +400,7 @@ function StepTwo({ formData, setFormData }) {
                 formData.category === item ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-medium leading-[7px] tracking-[0%]">
+              <span className="font-sf text-[12px] font-medium leading-[7px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -452,7 +452,7 @@ function StepThree({ formData, setFormData }) {
   };
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Select product type.
       </p>
       <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
@@ -466,7 +466,7 @@ function StepThree({ formData, setFormData }) {
                 formData.productType.includes(item) ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-medium leading-[7px] tracking-[0%]">
+              <span className="font-sf text-[12px] font-medium leading-[7px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -497,7 +497,7 @@ function StepFour({ formData, setFormData }) {
   };
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Select print method.
       </p>
       <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
@@ -511,7 +511,7 @@ function StepFour({ formData, setFormData }) {
                 formData.printMethod.includes(item) ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] font-medium leading-[8px] tracking-[0%]">
+              <span className="font-sf text-[12px] font-medium leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -539,14 +539,14 @@ function StepFive({ formData, setFormData }) {
 
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Enter product details.
       </p>
 
       <div className="absolute bottom-0 w-full flex flex-col gap-[5px]">
         <div className="w-full h-[40px] flex items-center gap-[8px]">
           <div className="w-[140px] max-[460px]:w-[100px] h-full bg-surface rounded-[50px] flex items-center justify-start">
-            <span className="px-[16px] text-[11px] font-sf font-medium leading-[8px] text-muted2">
+            <span className="px-[16px] text-[12px] font-sf font-medium leading-[8px] text-muted2">
               Qty.
             </span>
 
@@ -563,13 +563,13 @@ function StepFive({ formData, setFormData }) {
                   },
                 }))
               }
-              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[11px] font-sf leading-[8px]"
+              className="flex-1 min-w-0 h-full bg-transparent outline-none border-none text-[12px] font-sf leading-[8px]"
             />
           </div>
 
           <div className="relative flex-1 h-full bg-surface rounded-[50px] p-[4px]">
             <div className="w-full h-full flex items-center gap-[4px] max-md:justify-between">
-              <button className="p-[16px] text-[11px] font-sf font-medium leading-[8px] text-muted2">
+              <button className="p-[16px] text-[12px] font-sf font-medium leading-[8px] text-muted2">
                 Colors
               </button>
 
@@ -627,7 +627,7 @@ function StepFive({ formData, setFormData }) {
                 <button
                   type="button"
                   onClick={() => setShowColorPicker((prev) => !prev)}
-                  className="p-[12px] text-[11px] font-sf font-medium leading-[8px] cursor-pointer"
+                  className="p-[12px] text-[12px] font-sf font-medium leading-[8px] cursor-pointer"
                 >
                   Custom
                 </button>
@@ -645,7 +645,7 @@ function StepFive({ formData, setFormData }) {
 
         <div className="w-full h-[40px] bg-surface rounded-[50px] p-[4px]">
           <div className="w-full h-full flex items-center justify-between">
-            <button className="p-[12px] text-[11px] font-sf font-medium leading-[8px]">
+            <button className="p-[12px] text-[12px] font-sf font-medium leading-[8px]">
               Size
             </button>
 
@@ -669,7 +669,7 @@ function StepFive({ formData, setFormData }) {
                         };
                       })
                     }
-                    className={`rounded-[50px] p-[12px] text-[11px] font-sf font-medium leading-[8px] cursor-pointer ${
+                    className={`rounded-[50px] p-[12px] text-[12px] font-sf font-medium leading-[8px] cursor-pointer ${
                       formData.productDetails.sizes.includes(size)
                         ? "bg-white"
                         : ""
@@ -681,7 +681,7 @@ function StepFive({ formData, setFormData }) {
               },
             )}
 
-            {/* <button className="p-[12px] rounded-[50px] text-[11px] font-sf font-medium leading-[8px] cursor-pointer">
+            {/* <button className="p-[12px] rounded-[50px] text-[12px] font-sf font-medium leading-[8px] cursor-pointer">
               Custom
             </button> */}
           </div>
@@ -845,7 +845,7 @@ function CustomColorPicker({ color, setColor }) {
 
       {/* RGB */}
       <div className="mt-[8px] flex items-center gap-[8px]">
-        <span className="font-sf text-[11px] font-medium leading-[8px]">
+        <span className="font-sf text-[12px] font-medium leading-[8px]">
           RGB
         </span>
 
@@ -866,7 +866,7 @@ function RGBInput({ value, onChange }) {
       max="255"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="flex-1 min-w-0 h-[40px] bg-white rounded-[50px] px-[12px] text-center font-sf text-[11px] outline-none border-none"
+      className="flex-1 min-w-0 h-[40px] bg-white rounded-[50px] px-[12px] text-center font-sf text-[12px] outline-none border-none"
     />
   );
 }
@@ -978,7 +978,7 @@ function StepSix({ formData, setFormData }) {
   const placeholderCount = circleCount - formData.design.length;
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Upload your design.
       </p>
       <div className="absolute bottom-0 bg-surface w-full h-[40px] p-[4px] rounded-[50px]">
@@ -1065,7 +1065,7 @@ function StepSeven({ formData, setFormData }) {
   ];
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[16px]">
+      <p className="font-sf text-[12px] font-medium leading-[16px]">
         Select branding/packaging.
       </p>
       <div className="absolute bottom-0 w-full rounded-[18px] bg-surface p-[4px]">
@@ -1086,7 +1086,7 @@ function StepSeven({ formData, setFormData }) {
                 formData.branding.includes(item) ? "bg-white" : ""
               }`}
             >
-              <span className="font-sf text-[11px] leading-[8px] tracking-[0%]">
+              <span className="font-sf text-[12px] leading-[8px] tracking-[0%]">
                 {item}
               </span>
             </button>
@@ -1099,7 +1099,7 @@ function StepSeven({ formData, setFormData }) {
 function StepEight({ formData, setFormData, onEnter, isSubmitting }) {
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[11px] text-center">
+      <p className="font-sf text-[12px] font-medium leading-[11px] text-center">
         Last one. Enter your information so,
         <br /> we can get back to you.
       </p>
@@ -1192,7 +1192,7 @@ function StepEight({ formData, setFormData, onEnter, isSubmitting }) {
             type="button"
             onClick={onEnter}
             disabled={!isStepValid(8, formData) || isSubmitting}
-            className="p-[12px] rounded-[50px] font-sf text-[11px] leading-[8px] cursor-pointer bg-white disabled:opacity-30"
+            className="p-[12px] rounded-[50px] font-sf text-[12px] leading-[8px] cursor-pointer bg-white disabled:opacity-30"
           >
             {isSubmitting ? "Sending..." : "Enter"}
           </button>
@@ -1205,7 +1205,7 @@ function StyledInput({ value, onChange, label, required = false }) {
   return (
     <div className="relative inline-flex">
       {/* Ghost element - invisible, but takes up real space, defines the box size */}
-      <span className="invisible p-[12px] font-sf text-[11px] leading-[8px] whitespace-nowrap">
+      <span className="invisible p-[12px] font-sf text-[12px] leading-[8px] whitespace-nowrap">
         {label}
         {required && <span>*</span>}
       </span>
@@ -1215,12 +1215,12 @@ function StyledInput({ value, onChange, label, required = false }) {
         type="text"
         value={value}
         onChange={onChange}
-        className="absolute inset-0 w-full h-full p-[12px] rounded-[50px] bg-white outline-none border-none font-sf text-[11px] leading-[8px]"
+        className="absolute inset-0 w-full h-full p-[12px] rounded-[50px] bg-white outline-none border-none font-sf text-[12px] leading-[8px]"
       />
 
       {/* Placeholder overlay - only shown when empty */}
       {!value && (
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[11px] leading-[8px] whitespace-nowrap text-[#00000040] pointer-events-none">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-sf text-[12px] leading-[8px] whitespace-nowrap text-[#00000040] pointer-events-none">
           {label}
           {required && <span className="text-[#C70000]">*</span>}
         </span>
@@ -1231,7 +1231,7 @@ function StyledInput({ value, onChange, label, required = false }) {
 function StepNine() {
   return (
     <>
-      <p className="font-sf text-[11px] font-medium leading-[8px] text-center">
+      <p className="font-sf text-[12px] font-medium leading-[8px] text-center">
         Form is submitted. Thanks.
       </p>
     </>

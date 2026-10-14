@@ -83,7 +83,7 @@ export default function Window({
                   />
                 </button>
               </div>
-              <p className="font-sf text-muted text-[11px] font-medium tracking-[0px] leading-[16px]">
+              <p className="font-sf text-muted text-[12px] font-medium tracking-[0px] leading-[16px]">
                 {title}
               </p>
             </div>
