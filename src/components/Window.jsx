@@ -13,9 +13,13 @@ export default function Window({
 }) {
   const nodeRef = useRef(null);
   return (
-    <Draggable handle=".window-header" cancel=".no-drag" nodeRef={nodeRef} bounds="parent">
+    <Draggable
+      handle=".window-header"
+      cancel=".no-drag"
+      nodeRef={nodeRef}
+      bounds="parent"
+    >
       <div
-        
         ref={nodeRef}
         style={{ zIndex }}
         onPointerDownCapture={onFocus}
@@ -79,7 +83,7 @@ export default function Window({
                   />
                 </button>
               </div>
-              <p className="font-sf text-muted text-[11px] font-bold tracking-[0px] leading-[16px]">
+              <p className="font-sf text-muted text-[11px] font-medium tracking-[0px] leading-[16px]">
                 {title}
               </p>
             </div>
