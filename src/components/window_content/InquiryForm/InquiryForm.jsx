@@ -25,12 +25,52 @@ const validators = {
 
 const isStepValid = (n, d) => (validators[n] ? !!validators[n](d) : true);
 
+// ADDED: must match the expanded height class (h-[628px]) below
+const EXPANDED_HEIGHT = 628;
+
 export default function InquiryForm({ zIndex, onFocus }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const nodeRef = useRef(null);
   const [step, setStep] = useState(1);
   const didDrag = useRef(false);
+
+  // ADDED: controlled drag position so we can nudge the window on expand
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  // ADDED: enables a smooth slide only during the expand correction
+  const [snapping, setSnapping] = useState(false);
+
+  // ADDED: expand, and if the grown window would cross the top of the
+  // container, shift it down by exactly the overflow.
+  const expand = () => {
+    const el = nodeRef.current;
+    const parent = el?.parentElement;
+
+    if (el && parent) {
+      const rect = el.getBoundingClientRect();
+      const parentRect = parent.getBoundingClientRect();
+
+      // Window is anchored with `bottom`, so it grows upward from rect.bottom
+      const expandedTop = rect.bottom - EXPANDED_HEIGHT;
+      const overflow = parentRect.top - expandedTop;
+
+      if (overflow > 0) {
+        setSnapping(true);
+        // y can never go below 0 (that's the original bottom anchor position)
+        setPos((p) => ({ ...p, y: Math.min(0, p.y + overflow) }));
+        setTimeout(() => setSnapping(false), 320);
+      }
+    }
+
+    setExpanded(true);
+  };
+
+  // ADDED
+  const toggleExpanded = () => {
+    if (expanded) setExpanded(false);
+    else expand();
+  };
+
   const previousStep = () => {
     setStep((prev) => Math.max(prev - 1, 1));
   };
@@ -161,15 +201,21 @@ export default function InquiryForm({ zIndex, onFocus }) {
       bounds="parent"
       cancel="button,input,textarea,select,label,.color-picker"
       nodeRef={nodeRef}
+      // CHANGED: controlled position
+      position={pos}
       onStart={() => {
         didDrag.current = false;
       }}
-      onDrag={() => {
+      onDrag={(e, data) => {
         didDrag.current = true;
+        // CHANGED: keep our position state in sync while dragging
+        setPos({ x: data.x, y: data.y });
       }}
-      onStop={() => {
+      onStop={(e, data) => {
+        setPos({ x: data.x, y: data.y });
         if (!didDrag.current) {
-          setExpanded(true);
+          // CHANGED: bounds-aware expand instead of setExpanded(true)
+          expand();
         }
       }}
     >
@@ -179,7 +225,12 @@ export default function InquiryForm({ zIndex, onFocus }) {
         onPointerDownCapture={onFocus}
         className={`drag absolute z-100 right-[10px] bottom-[10px] max-md:bottom-[4px] max-md:left-1/2 max-md:-translate-x-1/2 w-[428px] max-[460px]:w-[417px] max-w-[calc(100%-8px)] ${
           expanded ? "h-[628px] delay-0" : "h-[93px] delay-150"
-        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden transition-[height] duration-300 ease-out`}
+        } ${
+          // CHANGED: smooth slide only while correcting on expand
+          snapping
+            ? "transition-[height,transform] duration-300"
+            : "transition-[height] duration-300"
+        } bg-surface rounded-[10px] px-[5px] pb-[5px] overflow-hidden ease-out`}
       >
         <div className="w-full h-full flex flex-col">
           <div className="window-header cursor-grab h-[38px] w-full  flex items-center justify-start">
@@ -197,7 +248,8 @@ export default function InquiryForm({ zIndex, onFocus }) {
               <button
                 onPointerDown={(e) => {
                   e.stopPropagation();
-                  setExpanded((prev) => !prev);
+                  // CHANGED: bounds-aware toggle
+                  toggleExpanded();
                 }}
                 type="button"
                 className="cursor-pointer"
