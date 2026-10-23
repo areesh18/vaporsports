@@ -1,4 +1,4 @@
-import { Geist} from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 const geist = Geist({
   variable: "--font-geist",
@@ -16,9 +16,10 @@ const sfProMedium = localFont({
   display: "swap",
 }); */
 export const metadata = {
-  title: "Vapor Sports® | B2B Custom Merch Tool For Startups",
+  title:
+    "Vapor Sports® | OEM & Custom Apparel Manufacturer to bring complex technical apparel concepts to market.",
   description:
-    "Full-scale custom apparel manufacturing for clothing brands and global labels.",
+    "Vapor Sports® is an OEM and custom apparel manufacturer specializing in performance sportswear, technical outerwear, and custom garments. We partner with independent labels and athletic brands to manage complete production runs - handling pattern development, low-minimum sampling, specialized print techniques, and white-label finishing. Our focus remains on structural quality, fit precision, and reliable manufacturing to bring complex technical apparel concepts to market.",
 };
 
 export default function RootLayout({ children }) {
