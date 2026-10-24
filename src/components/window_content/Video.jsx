@@ -21,12 +21,11 @@ export default function Video() {
     }
   };
   return (
-    <div className="relative  w-full h-full flex items-center justify-center ">
-      <video
+    <div className="relative  w-full h-full flex items-center justify-center">
+      {/* <video
         ref={videoRef}
         src="/video.mp4"
         className="absolute inset-0 w-full h-full object-cover"
-        /* controls={isPlaying} */
         playsInline
         preload="true"
         onPlay={() => setIsPlaying(true)}
@@ -43,7 +42,7 @@ export default function Video() {
         >
           <PlaySvg className="w-[50px] h-[50px]" />
         </button>
-      )}
+      )} */}
     </div>
   );
 }
